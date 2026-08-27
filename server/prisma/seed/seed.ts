@@ -1,7 +1,7 @@
 import { type Prisma } from "../generated/prisma/client";
-import { prisma } from "../src/lib/prisma";
+import { prisma } from "../../src/lib/prisma";
 import bcrypt from "bcryptjs";
-import { env } from "../src/config/env";
+import { env } from "../../src/config/env";
 
 async function main() {
   console.log("🌱 Seeding database...");

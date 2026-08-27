@@ -61,3 +61,10 @@ apps/api/prisma/*.db
 # Vercel / Railway / Render
 .vercel
 .railway
+
+# Generated Prisma Client (custom output only)
+generated/prisma
+src/generated/prisma
+
+# seed file
+prisma/seed
