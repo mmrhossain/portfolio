@@ -63,6 +63,5 @@ apps/api/prisma/*.db
 .railway
 
 # Generated Prisma Client (custom output only)
-server/src/generated/
 # seed file
 server/prisma/seed/
