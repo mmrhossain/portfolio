@@ -47,7 +47,7 @@ export function BlogActions({
 
             <DropdownMenuItem asChild>
                 <Link
-                    href={`/blog/${blog.slug}`}
+                    href={`/blogs/${blog.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                 >

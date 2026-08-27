@@ -23,16 +23,16 @@ export function BlogCard({ blog }: BlogCardProps) {
         />
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <div className="mb-3 flex items-center justify-between text-xs text-muted-foreground">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
           <Badge variant="secondary" className="font-medium">
             {blog.category}
           </Badge>
           <span>{formatDate(blog.publishedAt)}</span>
         </div>
-        <h3 className="font-display text-xl font-bold leading-snug transition-colors group-hover:text-accent-foreground">
+        <h3 className="font-display text-xl font-bold leading-snug break-words transition-colors group-hover:text-accent-foreground">
           {blog.title}
         </h3>
-        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-2 line-clamp-3 flex-1 break-words text-sm leading-relaxed text-muted-foreground">
           {blog.excerpt}
         </p>
         <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">

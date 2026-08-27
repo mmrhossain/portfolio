@@ -117,8 +117,6 @@ export interface ApiError {
 
 export interface AuthResponse {
   user: User;
-  accessToken: string;
-  refreshToken: string;
 }
 
 export interface DashboardSummary {

@@ -45,7 +45,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     dev<span className="text-lime-500">.monir</span>
                 </Link>
 
-                <div className="hidden items-center gap-8 md:flex">
+                <div className="hidden items-center gap-8 lg:flex">
                     {navItems.map((item) => {
                         const active = pathname === item.path;
 
@@ -71,7 +71,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     })}
                 </div>
 
-                <div className="hidden items-center gap-3 md:flex">
+                <div className="hidden items-center gap-3 lg:flex">
                     <ThemeToggle />
 
                     {user ? (
@@ -104,7 +104,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     </Button>
                 </div>
 
-                <div className="flex items-center gap-2 md:hidden">
+                <div className="flex items-center gap-2 lg:hidden">
                     <ThemeToggle />
 
                     <Button
@@ -122,7 +122,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
             </nav>
 
             {open && (
-                <div className="border-t border-border bg-background px-6 py-6 md:hidden">
+                <div className="border-t border-border bg-background px-6 py-6 lg:hidden">
                     <div className="flex flex-col gap-4">
                         {navItems.map((item) => {
                             const active = pathname === item.path;

@@ -8,38 +8,38 @@ export async function Hero() {
   const settings = await serverGetSettings("hero");
 
   const hero = settings?.data?.hero as
-      | {
-    title?: string;
-    subtitle?: string;
-  }
-      | undefined;
+    | {
+      title?: string;
+      subtitle?: string;
+    }
+    | undefined;
 
   const title =
-      hero?.title ?? "Trusted Partner for Your Website Development.";
+    hero?.title ?? "Trusted Partner for Your Website Development.";
 
   const subtitle =
-      hero?.subtitle ??
-      "Building modern, scalable, and high-performance web applications with clean architecture and exceptional user experiences.";
+    hero?.subtitle ??
+    "Building modern, scalable, and high-performance web applications with clean architecture and exceptional user experiences.";
 
   return (
-      <section className="relative overflow-hidden py-20 md:py-28">
-        {/* Background */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-30">
-          <Image
-              src="/images/bg-gradiant1.svg"
-              alt="Background"
-              fill
-              priority
-              className="object-cover"
-          />
-        </div>
+    <section className="relative overflow-hidden py-10 md:py-12 2xl:py-42">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-30">
+        <Image
+          src="/images/bg-gradiant1.svg"
+          alt="Background"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
 
-        <div className="container-page">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Left Content */}
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-              {/* Live Status Badge */}
-              <span className="inline-flex items-center gap-3 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 text-sm font-medium text-green-600 backdrop-blur dark:text-green-400">
+      <div className="container-page">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          {/* Left Content */}
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {/* Live Status Badge */}
+            <span className="inline-flex items-center gap-3 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 text-sm font-medium text-green-600 backdrop-blur dark:text-green-400">
               <span className="relative flex h-3 w-3">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
                 <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
@@ -47,49 +47,50 @@ export async function Hero() {
               Available for new projects
             </span>
 
-              <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[84px]">
-                {title}
-              </h1>
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+              {title}
+            </h1>
 
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                {subtitle}
-              </p>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              {subtitle}
+            </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Button asChild size="lg" variant="accent">
-                  <Link href="/projects">
-                    Show My Work
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
-                </Button>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" variant="accent">
+                <Link href="/projects">
+                  Show My Work
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
 
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/contact">Let's Talk</Link>
-                </Button>
-              </div>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/contact">Let's Talk</Link>
+              </Button>
             </div>
+          </div>
 
-            {/* Right Image */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative">
-                {/* Animated Glow */}
-                <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-gradient-to-r from-teal-400/30 via-cyan-400/20 to-lime-400/30 blur-3xl" />
+          {/* Right Image */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative">
+              {/* Animated Glow */}
+              <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-gradient-to-r from-teal-400/30 via-cyan-400/20 to-lime-400/30 blur-3xl" />
 
-                {/* Floating Image Container */}
-                <div className="animate-[float_6s_ease-in-out_infinite]">
-                  <Image
-                      src="/images/portfolio.webp"
-                      alt="Monir Hossain"
-                      width={500}
-                      height={500}
-                      priority
-                      className="h-auto w-auto rounded-2xl border border-border/50 object-cover shadow-2xl"
-                  />
-                </div>
+              {/* Floating Image Container */}
+              <div className="mx-auto w-full max-w-[400px] animate-[float_6s_ease-in-out_infinite] 2xl:max-w-[520px]">
+                <Image
+                  src="/images/portfolio.webp"
+                  alt="Monir Hossain"
+                  width={520}
+                  height={520}
+                  priority
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, (max-width: 1536px) 400px, 520px"
+                  className="aspect-square h-auto w-full rounded-2xl border border-border/50 object-cover shadow-2xl"
+                />
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   );
 }

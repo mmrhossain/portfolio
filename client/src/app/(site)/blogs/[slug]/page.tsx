@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/utils';
 import { ApiResponse, Blog } from '@/types';
 import {serverGetBlog} from "@/app/actions";
+import ReactMarkDown from "react-markdown"
 
 export const revalidate = 3600;
 
@@ -55,7 +56,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
             <div className="mx-auto max-w-3xl">
               <Badge variant="secondary">{blog.category}</Badge>
-              <h1 className="mt-6 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 font-display text-4xl font-bold leading-tight tracking-tight break-words sm:text-5xl lg:text-6xl">
                 {blog.title}
               </h1>
 
@@ -91,18 +92,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             />
           </div>
 
-          <div className="prose prose-lg prose-neutral mx-auto mt-12 max-w-3xl dark:prose-invert prose-headings:font-display prose-p:leading-relaxed">
-            {blog.content?.split('\n').map((paragraph, index) => {
-              const trimmed = paragraph.trim();
-              if (!trimmed) return null;
-              if (trimmed.startsWith('## ')) {
-                return <h2 key={index}>{trimmed.replace(/^##\s+/, '')}</h2>;
-              }
-              if (trimmed.startsWith('# ')) {
-                return <h1 key={index}>{trimmed.replace(/^#\s+/, '')}</h1>;
-              }
-              return <p key={index}>{trimmed}</p>;
-            })}
+          <div className="prose prose-lg prose-neutral mx-auto mt-12 max-w-3xl break-words dark:prose-invert prose-headings:font-display prose-p:leading-relaxed">
+            <ReactMarkDown>{blog?.content}</ReactMarkDown>
           </div>
 
           <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-border pt-8">

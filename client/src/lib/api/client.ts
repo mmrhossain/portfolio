@@ -30,195 +30,26 @@ interface RequestOptions {
   revalidate?: number;
 }
 
-// Global variables for queue and refresh management
+// Single-flight refresh: concurrent 401s wait for one refresh call instead of
+// each firing their own, which prevents refresh storms and loops.
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (token: string | null) => void;
+  resolve: () => void;
   reject: (error: unknown) => void;
 }> = [];
 
-const processQueue = (error: unknown, token: string | null = null) => {
+const processQueue = (error: unknown) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      prom.resolve();
     }
   });
   failedQueue = [];
 };
 
-async function request<T>(
-  path: string,
-  options: RequestOptions = {},
-): Promise<ApiResponse<T>> {
-  const {
-    method = "GET",
-    body,
-    headers = {},
-    credentials = "include",
-    revalidate,
-  } = options;
-
-  // Automatically attach Bearer token from Zustand store if available
-  let accessToken: string | null = null;
-  if (typeof window !== "undefined") {
-    try {
-      accessToken = useAuthStore.getState().accessToken;
-    } catch {
-      accessToken = null;
-    }
-  }
-
-  const isFormData =
-    typeof FormData !== "undefined" && body instanceof FormData;
-
-  const fetchOptions: RequestInit = {
-    method,
-    headers: {
-      ...(isFormData ? {} : { "Content-Type": "application/json" }),
-      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      ...headers,
-    },
-    credentials,
-    body: isFormData
-      ? (body as FormData)
-      : body
-        ? JSON.stringify(body)
-        : undefined,
-    ...(revalidate ? { next: { revalidate } } : {}),
-  };
-
-  let res: Response;
-  try {
-    res = await fetch(`${API_BASE}/api/v1${path}`, fetchOptions);
-  } catch (error) {
-    throw new ApiClientError(
-      0,
-      "NETWORK_ERROR",
-      "Unable to reach the server. Check your connection.",
-    );
-  }
-
-  // Handle Token Expiration and Auto-Refresh (401 Unauthorized)
- let hasToken: string | null = null
-  if(typeof window !== "undefined") {
-    try {
-      hasToken = useAuthStore.getState().accessToken;
-    }catch {
-      hasToken = null;
-    }
-  }
-  if (res.status === 401 && !path.includes("/auth/") && hasToken) {
-    if (isRefreshing) {
-      try {
-        const newToken = await new Promise<string | null>((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        });
-
-        if (newToken) {
-          // Retry the original request with the new token
-          const retryHeaders = {
-            ...fetchOptions.headers,
-            Authorization: `Bearer ${newToken}`,
-          };
-          const retryRes = await fetch(`${API_BASE}/api/v1${path}`, {
-            ...fetchOptions,
-            headers: retryHeaders,
-          });
-
-          const retryContentType = retryRes.headers.get("content-type") ?? "";
-          const retryPayload = retryContentType.includes("application/json")
-            ? ((await retryRes.json()) as ApiResponse<T> | ApiError)
-            : null;
-
-          if (!retryRes.ok) {
-            const errPayload = retryPayload as ApiError | null;
-            throw new ApiClientError(
-              retryRes.status,
-              errPayload?.error?.code ?? "UNKNOWN_ERROR",
-              errPayload?.error?.message ??
-                `Request failed with status ${retryRes.status}`,
-              errPayload?.error?.details,
-            );
-          }
-          return retryPayload as ApiResponse<T>;
-        }
-      } catch (queueError) {
-        throw queueError;
-      }
-    }
-
-    isRefreshing = true;
-
-    try {
-      // Attempt to get a new access token via refresh route
-      const refreshRes = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!refreshRes.ok) {
-        throw new Error("Refresh token expired");
-      }
-
-      const refreshData = await refreshRes.json();
-      const newAccessToken =
-        refreshData.data?.accessToken || refreshData.accessToken;
-
-      // Update Zustand store with the new access token
-      useAuthStore.getState().setAccessToken(newAccessToken);
-
-      isRefreshing = false;
-      processQueue(null, newAccessToken);
-
-      // Retry original request with new access token
-      const newHeaders = {
-        ...fetchOptions.headers,
-        Authorization: `Bearer ${newAccessToken}`,
-      };
-
-      const retryRes = await fetch(`${API_BASE}/api/v1${path}`, {
-        ...fetchOptions,
-        headers: newHeaders,
-      });
-
-      const contentType = retryRes.headers.get("content-type") ?? "";
-      const payload = contentType.includes("application/json")
-        ? ((await retryRes.json()) as ApiResponse<T> | ApiError)
-        : null;
-
-      if (!retryRes.ok) {
-        const errorPayload = payload as ApiError | null;
-        throw new ApiClientError(
-          retryRes.status,
-          errorPayload?.error?.code ?? "UNKNOWN_ERROR",
-          errorPayload?.error?.message ??
-            `Request failed with status ${retryRes.status}`,
-          errorPayload?.error?.details,
-        );
-      }
-
-      return payload as ApiResponse<T>;
-    } catch (refreshError) {
-      isRefreshing = false;
-      processQueue(refreshError, null);
-
-      // Clear auth state and force logout if refresh fails
-      useAuthStore.getState().reset();
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
-      }
-
-      throw new ApiClientError(
-        401,
-        "UNAUTHORIZED",
-        "Session expired. Please log in again.",
-      );
-    }
-  }
-
+async function parseResponse<T>(res: Response): Promise<ApiResponse<T>> {
   const contentType = res.headers.get("content-type") ?? "";
   const payload = contentType.includes("application/json")
     ? ((await res.json()) as ApiResponse<T> | ApiError)
@@ -236,6 +67,105 @@ async function request<T>(
   }
 
   return payload as ApiResponse<T>;
+}
+
+async function request<T>(
+  path: string,
+  options: RequestOptions = {},
+): Promise<ApiResponse<T>> {
+  const {
+    method = "GET",
+    body,
+    headers = {},
+    // Cookie-based auth: always send the HttpOnly auth cookies.
+    credentials = "include",
+    revalidate,
+  } = options;
+
+  const isFormData =
+    typeof FormData !== "undefined" && body instanceof FormData;
+
+  const fetchOptions: RequestInit = {
+    method,
+    headers: {
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      ...headers,
+    },
+    credentials,
+    body: isFormData
+      ? (body as FormData)
+      : body
+        ? JSON.stringify(body)
+        : undefined,
+    ...(revalidate ? { next: { revalidate } } : {}),
+  };
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/api/v1${path}`, fetchOptions);
+  } catch {
+    throw new ApiClientError(
+      0,
+      "NETWORK_ERROR",
+      "Unable to reach the server. Check your connection.",
+    );
+  }
+
+  // Only attempt a refresh for an authenticated user hitting a protected route.
+  // Skipping /auth/* prevents the refresh endpoint from triggering itself.
+  const isLoggedIn =
+    typeof window !== "undefined" && useAuthStore.getState().user !== null;
+
+  if (res.status === 401 && !path.includes("/auth/") && isLoggedIn) {
+    // A refresh is already in flight: wait for it, then retry once.
+    if (isRefreshing) {
+      await new Promise<void>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      });
+      const retryRes = await fetch(`${API_BASE}/api/v1${path}`, fetchOptions);
+      return parseResponse<T>(retryRes);
+    }
+
+    isRefreshing = true;
+
+    try {
+      // The refresh endpoint reads the HttpOnly refreshToken cookie and sets a
+      // new accessToken cookie. The browser handles the cookies automatically.
+      const refreshRes = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!refreshRes.ok) {
+        throw new Error("Session refresh failed");
+      }
+
+      isRefreshing = false;
+      processQueue(null);
+
+      // Retry the original request once with the refreshed cookie.
+      const retryRes = await fetch(`${API_BASE}/api/v1${path}`, fetchOptions);
+      return parseResponse<T>(retryRes);
+    } catch (refreshError) {
+      isRefreshing = false;
+      processQueue(refreshError);
+
+      // Refresh failed: clear UI auth state and send the user to login.
+      useAuthStore.getState().reset();
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+
+      throw new ApiClientError(
+        401,
+        "UNAUTHORIZED",
+        "Session expired. Please log in again.",
+      );
+    }
+  }
+
+  return parseResponse<T>(res);
 }
 
 export const api = {

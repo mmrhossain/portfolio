@@ -37,13 +37,13 @@ export function MessageDetailsDialog({
             open={open}
             onOpenChange={onOpenChange}
         >
-            <DialogContent>
+            <DialogContent className="max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>
                         {message?.subject || "Message"}
                     </DialogTitle>
 
-                    <DialogDescription>
+                    <DialogDescription className="break-words">
                         From {message?.name}
                         {" ("}
                         {message?.email}
@@ -54,7 +54,7 @@ export function MessageDetailsDialog({
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="whitespace-pre-wrap rounded-xl bg-muted p-4">
+                <div className="whitespace-pre-wrap break-words rounded-xl bg-muted p-4">
                     {message?.body}
                 </div>
 

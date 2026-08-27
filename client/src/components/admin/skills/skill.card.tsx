@@ -16,11 +16,11 @@ export function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
   return (
     <div className="group rounded-2xl border p-5">
       <div className="flex justify-between">
-        <div className="flex gap-3">
-          <Image src={skill.iconUrl} alt={skill.name} width={50} height={50} />
+        <div className="flex min-w-0 gap-3">
+          <Image src={skill.iconUrl} alt={skill.name} width={50} height={50} className="shrink-0" />
 
-          <div>
-            <p className="font-medium">{skill.name}</p>
+          <div className="min-w-0">
+            <p className="truncate font-medium">{skill.name}</p>
 
             <Badge variant="secondary">{skill.category}</Badge>
           </div>

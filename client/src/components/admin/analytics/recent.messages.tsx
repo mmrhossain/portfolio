@@ -43,9 +43,9 @@ export function RecentMessages({ messages }: Props) {
       <CardContent>
         {messages?.length > 0 ? messages?.map((message) => (
             <div key={message.id} className="mb-3 rounded-xl border p-3">
-              <p className="font-medium">{message.name}</p>
+              <p className="font-medium break-words">{message.name}</p>
 
-              <p className="text-xs text-muted-foreground">{message.body}</p>
+              <p className="line-clamp-2 break-words text-xs text-muted-foreground">{message.body}</p>
 
               <p className="text-xs text-muted-foreground">
                 {formatDateTime(message.createdAt)}

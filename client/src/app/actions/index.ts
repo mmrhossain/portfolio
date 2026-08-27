@@ -67,6 +67,45 @@ async function serverFetchRaw<T>(
     }
 }
 
+/**
+ * The refresh endpoint rotates the auth cookies and returns them via
+ * Set-Cookie. Server Components cannot write cookies back to the browser, so
+ * for the current request we read the rotated tokens directly from the refresh
+ * response and use them for the retry. Falls back to the previous values.
+ */
+function cookieHeaderFromRefresh(
+    refreshHeaders: Headers,
+    previous: { accessToken?: string; refreshToken?: string },
+): string {
+    let accessToken = previous.accessToken;
+    let refreshToken = previous.refreshToken;
+
+    const getSetCookie = (
+        refreshHeaders as unknown as { getSetCookie?: () => string[] }
+    ).getSetCookie;
+    const setCookies =
+        typeof getSetCookie === "function"
+            ? getSetCookie.call(refreshHeaders)
+            : [];
+
+    for (const cookie of setCookies) {
+        const [pair] = cookie.split(";");
+        const separator = pair.indexOf("=");
+        if (separator === -1) continue;
+        const name = pair.slice(0, separator).trim();
+        const value = pair.slice(separator + 1).trim();
+        if (name === "accessToken") accessToken = value;
+        if (name === "refreshToken") refreshToken = value;
+    }
+
+    return [
+        accessToken && `accessToken=${accessToken}`,
+        refreshToken && `refreshToken=${refreshToken}`,
+    ]
+        .filter(Boolean)
+        .join("; ");
+}
+
 export async function serverFetch<T>(
     path: string,
     init?: RequestInit,
@@ -106,11 +145,16 @@ export async function serverFetch<T>(
         );
 
         if (refreshRes.ok) {
+            const refreshedCookieHeader = cookieHeaderFromRefresh(
+                refreshRes.headers,
+                { accessToken, refreshToken },
+            );
+
             res = await fetch(`${API_BASE}/api/v1${path}`, {
                 ...init,
                 headers: {
                     "Content-Type": "application/json",
-                    Cookie: cookieHeader,
+                    Cookie: refreshedCookieHeader,
                     ...(init?.headers ?? {}),
                 },
                 cache: "no-store",

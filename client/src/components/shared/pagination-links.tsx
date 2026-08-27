@@ -34,7 +34,7 @@ export function PaginationLinks({ meta, basePath, searchParams, className }: Pag
   const visiblePages = getVisiblePages(meta.page, meta.totalPages);
 
   return (
-    <nav aria-label="Pagination" className={cn('flex items-center justify-center gap-2', className)}>
+    <nav aria-label="Pagination" className={cn('flex flex-wrap items-center justify-center gap-2', className)}>
       {meta.hasPrevPage ? (
         <Link
           href={pageHref(basePath, searchParams, meta.page - 1)}

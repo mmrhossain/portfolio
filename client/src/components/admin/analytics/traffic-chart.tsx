@@ -38,7 +38,7 @@ export function TrafficChart({ days = 30 }: { days?: number }) {
             No traffic data yet.
           </div>
         ) : (
-          <div className="flex h-52 items-end gap-1.5 pt-6 pb-2">
+          <div className="flex h-52 items-end gap-[2px] overflow-x-clip pt-6 pb-2 sm:gap-1.5">
             {timeline.map((point, index) => {
               const heightPercent = Math.max(8, (point.total / max) * 100);
 

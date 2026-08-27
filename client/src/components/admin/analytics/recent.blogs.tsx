@@ -42,12 +42,12 @@ export function RecentBlogs({ blogs }: Props) {
 
       <CardContent>
         {blogs?.length > 0 ? blogs?.map((blog) => (
-            <div key={blog.id} className="flex items-center justify-between py-3">
-              <div className="flex items-center gap-3">
-                <Sparkles className="h-4 w-4" />
+            <div key={blog.id} className="flex items-center justify-between gap-3 py-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <Sparkles className="h-4 w-4 shrink-0" />
 
-                <div>
-                  <p className="font-medium">{blog.title}</p>
+                <div className="min-w-0">
+                  <p className="truncate font-medium">{blog.title}</p>
 
                   <p className="text-xs text-muted-foreground">
                     {formatDate(blog.publishedAt ?? blog.createdAt)}
@@ -55,7 +55,7 @@ export function RecentBlogs({ blogs }: Props) {
                 </div>
               </div>
 
-              <Badge>{blog.status}</Badge>
+              <Badge className="shrink-0">{blog.status}</Badge>
             </div>
         )): <EmptyState className={"py-10"}/>}
       </CardContent>

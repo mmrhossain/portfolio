@@ -1,6 +1,5 @@
 import type {Metadata, Viewport} from "next";
 import {Providers} from "@/components/providers";
-// import {AuthProvider} from "@/components/providers/auth.provider";
 import {ScrollToTop} from "@/components/site/scroll-to-top";
 
 import "./globals.css";

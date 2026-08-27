@@ -43,7 +43,7 @@ export function MessagesTable({
                                   onDelete,
                               }: Props) {
     return (
-        <Table>
+        <Table className="min-w-[720px]">
             <TableHeader>
                 <TableRow>
                     <TableHead>From</TableHead>

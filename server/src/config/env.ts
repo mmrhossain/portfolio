@@ -26,6 +26,14 @@ const envSchema = z.object({
   JWT_ISSUER: z.string().default("dev-monir-api"),
   JWT_AUDIENCE: z.string().default("dev-monir-client"),
 
+  COOKIE_DOMAIN: z.string().optional(),
+  COOKIE_SECURE: z
+    .string()
+    .optional()
+    .transform((value) =>
+      value === undefined ? undefined : value.toLowerCase() === "true",
+    ),
+
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
   RATE_LIMIT_MAX: z.coerce.number().default(200),
   AUTH_RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),

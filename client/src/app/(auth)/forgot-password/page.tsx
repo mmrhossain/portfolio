@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/20">
               <Mail className="h-7 w-7 text-accent" />
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground break-words">
               If an account exists for <strong>{email}</strong>, a reset link is on its way.
             </p>
             <Button asChild variant="outline">

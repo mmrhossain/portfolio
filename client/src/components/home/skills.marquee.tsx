@@ -84,10 +84,10 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
 
       <div className="relative overflow-hidden">
         {/* Left Fade */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-black to-transparent sm:w-24" />
 
         {/* Right Fade */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-black to-transparent sm:w-24" />
 
         <div
           className={cn("flex gap-5 px-6 hover:[animation-play-state:paused]")}

@@ -81,7 +81,7 @@ export function UsersDialog({
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent className="max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>
                         Edit User

@@ -13,7 +13,7 @@ export function ContactCta() {
               <span className="h-px w-8 bg-accent" />
               Contact
             </span>
-            <h2 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[76px]">
+            <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[76px]">
               Interested in{' '}
               <span className="rounded-xl bg-foreground px-3 text-background">work</span> together?
             </h2>

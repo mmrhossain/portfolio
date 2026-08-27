@@ -17,7 +17,7 @@ export function PageHeader({ eyebrow, title, description, className }: PageHeade
           <span className="h-px w-8 bg-accent" />
         </span>
       )}
-      <h1 className="mx-auto max-w-3xl font-display text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+      <h1 className="mx-auto max-w-3xl font-display text-4xl font-bold tracking-tight break-words sm:text-5xl md:text-6xl lg:text-7xl">
         {title}
       </h1>
       {description && (

@@ -37,12 +37,12 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
 
         <div className="flex flex-1 flex-col p-6">
           <Link href={`/projects/${project?.slug}`}>
-            <h3 className="font-display text-2xl font-bold transition-colors hover:text-accent">
+            <h3 className="font-display text-2xl font-bold break-words transition-colors hover:text-accent">
               {project?.title}
             </h3>
           </Link>
 
-          <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 line-clamp-3 flex-1 break-words text-sm leading-relaxed text-muted-foreground">
             {project?.description}
           </p>
 
@@ -54,7 +54,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
             ))}
           </div>
 
-          <div className="mt-5 flex items-center justify-between">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-y-2">
             <div className="flex items-center gap-3">
               {project?.liveUrl && (
                   <Link

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { randomBytes, createHash } from "crypto";
-import { env } from "../../config/env.js";
+import { env, isProduction } from "../../config/env.js";
+import { UnauthorizedError } from "../errors.js";
 import type { Response } from "express";
 
 const JWT_ACCESS_EXPIRES_IN = 15 * 60 * 1000; // 15 minutes in milliseconds
@@ -64,17 +65,45 @@ export function signRefreshToken(payload: {
 }
 
 export function verifyAccessToken(token: string): AccessTokenPayload {
-  return jwt.verify(token, env.JWT_ACCESS_SECRET, {
-    issuer: env.JWT_ISSUER,
-    audience: env.JWT_AUDIENCE,
-  }) as AccessTokenPayload;
+  let payload: AccessTokenPayload;
+
+  try {
+    payload = jwt.verify(token, env.JWT_ACCESS_SECRET, {
+      issuer: env.JWT_ISSUER,
+      audience: env.JWT_AUDIENCE,
+    }) as AccessTokenPayload;
+  } catch {
+    // Invalid signature, malformed, or expired token -> not a server error.
+    throw new UnauthorizedError("Invalid or expired access token.");
+  }
+
+  // A refresh token must never be accepted as an access token.
+  if (payload.type !== "access") {
+    throw new UnauthorizedError("Invalid access token.");
+  }
+
+  return payload;
 }
 
 export function verifyRefreshToken(token: string): RefreshTokenPayload {
-  return jwt.verify(token, env.JWT_REFRESH_SECRET, {
-    issuer: env.JWT_ISSUER,
-    audience: env.JWT_AUDIENCE,
-  }) as RefreshTokenPayload;
+  let payload: RefreshTokenPayload;
+
+  try {
+    payload = jwt.verify(token, env.JWT_REFRESH_SECRET, {
+      issuer: env.JWT_ISSUER,
+      audience: env.JWT_AUDIENCE,
+    }) as RefreshTokenPayload;
+  } catch {
+    // Invalid signature, malformed, or expired token -> not a server error.
+    throw new UnauthorizedError("Invalid or expired refresh token.");
+  }
+
+  // An access token must never be accepted as a refresh token.
+  if (payload.type !== "refresh") {
+    throw new UnauthorizedError("Invalid refresh token.");
+  }
+
+  return payload;
 }
 
 export function createTokenId(): string {
@@ -98,34 +127,51 @@ export function generateOtp(): string {
   return randomBytes(4).toString("hex");
 }
 
+type AuthCookieOptions = {
+  httpOnly: true;
+  secure: boolean;
+  sameSite: "lax";
+  path: string;
+  domain?: string;
+};
+
+/**
+ * Shared attributes for both auth cookies. The SAME attributes (minus maxAge)
+ * must be used when clearing, otherwise the browser will not remove the cookie
+ * on logout.
+ *
+ * - secure: enabled automatically in production (HTTPS); can be forced with
+ *   COOKIE_SECURE. Disabled on http://localhost so development login works.
+ * - domain: omitted in development (host-only cookie). In production set
+ *   COOKIE_DOMAIN so the cookie is shared between the API and the frontend
+ *   (e.g. mmrhossain.com covers api.mmrhossain.com and mmrhossain.com).
+ */
+function authCookieOptions(): AuthCookieOptions {
+  return {
+    httpOnly: true,
+    secure: env.COOKIE_SECURE ?? isProduction,
+    sameSite: "lax",
+    path: "/",
+    ...(env.COOKIE_DOMAIN ? { domain: env.COOKIE_DOMAIN } : {}),
+  };
+}
+
 export function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    ...authCookieOptions(),
     maxAge: JWT_ACCESS_EXPIRES_IN,
-    path: "/",
-    // domain: ".mmrhossain.com"
   });
 }
 
 export function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    ...authCookieOptions(),
     maxAge: JWT_REFRESH_EXPIRES_IN,
-    path: "/",
-    // domain: ".mmrhossain.com"
   });
 }
 
 export function clearAuthCookies(res: Response) {
-  res.clearCookie("accessToken", {
-    path: "/",
-  });
-
-  res.clearCookie("refreshToken", {
-    path: "/",
-  });
+  const options = authCookieOptions();
+  res.clearCookie("accessToken", options);
+  res.clearCookie("refreshToken", options);
 }

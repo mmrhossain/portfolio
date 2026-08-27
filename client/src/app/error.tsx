@@ -15,8 +15,8 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-center">
-      <h1 className="font-display text-4xl font-bold">Something went wrong</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center">
+      <h1 className="font-display text-3xl font-bold sm:text-4xl">Something went wrong</h1>
       <p className="max-w-md text-muted-foreground">
         An unexpected error occurred. Please try again.
       </p>

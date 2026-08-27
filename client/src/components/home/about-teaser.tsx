@@ -10,7 +10,7 @@ export function AboutTeaser() {
       </div>
       <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-[72px]">
+          <h2 className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-[72px]">
             I&apos;ve been{' '}
             <span className="rounded-xl bg-foreground px-3 text-background">Developing</span>
             <br />

@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { authService } from "./auth.service.js";
 import { sendPasswordResetEmail } from "../../shared/mailer.js";
-import { BadRequestError, UnauthorizedError } from "../../shared/errors.js";
+import { UnauthorizedError } from "../../shared/errors.js";
 import {sendSuccess} from "../../shared/response.js";
 import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "../../shared/utils/tokens.js";
 
@@ -12,7 +12,7 @@ export const authController = {
       const result = await authService.login(req.body);
       setAccessCookie(res, result.accessToken);
       setRefreshCookie(res, result.refreshToken);
-      return sendSuccess(res, result, { message: "Logged in successfully." });
+      return sendSuccess(res, { user: result.user }, { message: "Logged in successfully." });
     } catch (error) {
       return next(error);
     }
@@ -22,12 +22,12 @@ export const authController = {
     try {
       const refreshToken = req.cookies?.refreshToken;
       if (!refreshToken) {
-        throw new BadRequestError("Missing refresh token.");
+        throw new UnauthorizedError("Missing refresh token.");
       }
       const result = await authService.refresh(refreshToken);
       setAccessCookie(res, result.accessToken);
       setRefreshCookie(res, result.refreshToken);
-      return sendSuccess(res, result, {
+      return sendSuccess(res, { user: result.user }, {
         message: "Token refreshed successfully.",
       });
     } catch (error) {
