@@ -23,6 +23,7 @@ const categories: SkillCategory[] = [
   "DEVOPS",
   "TOOLS",
   "OTHER",
+    "LANGUAGE"
 ];
 
 interface SkillFormProps {

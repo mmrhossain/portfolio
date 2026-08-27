@@ -2,7 +2,7 @@ export type Role = 'ADMIN' | 'USER';
 export type ProjectStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 export type BlogStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 export type MessageStatus = 'NEW' | 'READ' | 'REPLIED' | 'ARCHIVED';
-export type SkillCategory = 'FRONTEND' | 'BACKEND' | 'DATABASE' | 'DEVOPS' | 'TOOLS' | 'OTHER';
+export type SkillCategory = 'FRONTEND' | 'BACKEND' | 'DATABASE' | 'DEVOPS' | 'TOOLS' | 'OTHER' | "LANGUAGE";
 
 export interface User {
   id: string;
