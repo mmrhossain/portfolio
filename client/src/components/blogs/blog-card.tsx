@@ -12,7 +12,7 @@ export function BlogCard({ blog }: BlogCardProps) {
   return (
     <Link
       href={`/blogs/${blog.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl"
+      className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl"
     >
       <div className="relative aspect-[16/9] overflow-hidden">
         <img
@@ -29,7 +29,7 @@ export function BlogCard({ blog }: BlogCardProps) {
           </Badge>
           <span>{formatDate(blog.publishedAt)}</span>
         </div>
-        <h3 className="font-display text-xl font-bold leading-snug break-words transition-colors group-hover:text-accent-foreground">
+        <h3 className="font-display text-xl font-bold leading-snug break-words transition-colors">
           {blog.title}
         </h3>
         <p className="mt-2 line-clamp-3 flex-1 break-words text-sm leading-relaxed text-muted-foreground">

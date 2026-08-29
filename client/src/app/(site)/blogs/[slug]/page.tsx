@@ -81,7 +81,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         <div className="container-page mt-10">
-          <div className="relative mx-auto aspect-[16/7] w-full max-w-4xl overflow-hidden rounded-3xl shadow-lg">
+          <div className="relative mx-auto aspect-[16/7] w-full max-w-4xl overflow-hidden rounded-md shadow-lg">
             <Image
                 src={blog.coverImage}
                 alt={blog.title}

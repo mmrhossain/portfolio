@@ -37,7 +37,7 @@ export async function WorkProcess() {
             <div
               key={`${step.title}-${index}`}
               className={cn(
-                'rounded-[30px] p-8 transition-transform duration-300 hover:-translate-y-1',
+                'rounded-md p-8 transition-transform duration-300 hover:-translate-y-1',
                 index === 1 ? 'bg-[#C5FF41] text-black' : 'bg-white/[0.06] text-white',
               )}
             >

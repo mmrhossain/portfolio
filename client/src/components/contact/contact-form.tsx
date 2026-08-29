@@ -39,7 +39,7 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-[30px] bg-foreground p-6 text-background sm:p-8">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-md bg-foreground p-6 text-background sm:p-8">
       <div className="space-y-2">
         <Label htmlFor="name" className="text-background/70">
           Your name

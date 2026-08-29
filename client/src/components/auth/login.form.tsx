@@ -53,7 +53,7 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="border-border/50 bg-card/60 backdrop-blur-xl shadow-lg rounded-3xl overflow-hidden">
+    <Card className="border-border/50 bg-card/60 backdrop-blur-xl shadow-lg rounded-md overflow-hidden">
       <CardHeader className="space-y-1 text-center pb-6">
         <CardTitle className="font-display text-2xl font-bold tracking-tight">
           Welcome back
@@ -143,7 +143,7 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            className="w-full h-11 rounded-xl font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-200 mt-2"
+            className="w-full h-11 rounded-md font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-200 mt-2"
             disabled={loading}
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

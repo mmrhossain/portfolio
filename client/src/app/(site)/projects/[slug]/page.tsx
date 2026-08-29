@@ -194,7 +194,7 @@ export default async function ProjectDetailPage({
                 </div>
 
                 {/* Hero Image */}
-                <div className="group relative mx-auto mt-16 aspect-[16/9] w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-border/60 bg-card/40 shadow-2xl backdrop-blur-2xl">
+                <div className="group relative mx-auto mt-16 aspect-[16/9] w-full max-w-5xl overflow-hidden rounded-md border border-border/60 bg-card/40 shadow-2xl backdrop-blur-2xl">
                     <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
 
                     <Image

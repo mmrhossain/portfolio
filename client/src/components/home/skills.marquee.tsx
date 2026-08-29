@@ -18,7 +18,7 @@ function SkillCard({
   proficiency,
 }: SkillCardProps) {
   return (
-    <div className="group flex w-[260px] shrink-0 flex-col gap-3 rounded-3xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg">
+    <div className="group flex w-[260px] shrink-0 flex-col gap-3 rounded-md border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg">
       <div className="flex items-center justify-between">
         <Image
           src={iconUrl}

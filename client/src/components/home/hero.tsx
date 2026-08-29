@@ -84,7 +84,7 @@ export async function Hero() {
                   height={520}
                   priority
                   sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, (max-width: 1536px) 400px, 520px"
-                  className="aspect-square h-auto w-full rounded-2xl border border-border/50 object-cover shadow-2xl"
+                  className="aspect-square h-auto w-full rounded-md border border-border/50 object-cover shadow-2xl"
                 />
               </div>
             </div>

@@ -51,7 +51,7 @@ export function Footer() {
             </p>
             <div className="mt-6 flex gap-3">
               {socials.map(({ label, href, Icon }) => (
-                <a
+                <Link
                   key={label}
                   href={href}
                   target="_blank"
@@ -60,7 +60,7 @@ export function Footer() {
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-gray-300 transition-all hover:border-accent hover:bg-accent hover:text-black"
                 >
                   <Icon className="h-4 w-4" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -89,7 +89,7 @@ export function Footer() {
                 className="flex items-center gap-3 transition-colors hover:text-accent"
               >
                 <Mail className="h-4 w-4" />
-                monirhdigital@gmail.com
+                info.mmrhossain@gmail.com
               </a>
               <a
                 href="tel:+8801787960556"

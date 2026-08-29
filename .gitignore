@@ -62,6 +62,5 @@ apps/api/prisma/*.db
 .vercel
 .railway
 
-# Generated Prisma Client (custom output only)
 # seed file
 server/prisma/seed/
