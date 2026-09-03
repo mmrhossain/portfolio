@@ -57,7 +57,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-gray-300 transition-all hover:border-accent hover:bg-accent hover:text-black"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gray-300 transition-all hover:border-accent hover:bg-accent hover:text-black lg:h-10 lg:w-10"
                 >
                   <Icon className="h-4 w-4" />
                 </Link>
@@ -86,16 +86,16 @@ export function Footer() {
             <div className="space-y-3 text-gray-300">
               <a
                 href="mailto:monirhdigital@gmail.com"
-                className="flex items-center gap-3 transition-colors hover:text-accent"
+                className="flex min-w-0 items-center gap-3 break-all transition-colors hover:text-accent"
               >
-                <Mail className="h-4 w-4" />
+                <Mail className="h-4 w-4 shrink-0" />
                 info.mmrhossain@gmail.com
               </a>
               <a
                 href="tel:+8801787960556"
-                className="flex items-center gap-3 transition-colors hover:text-accent"
+                className="flex min-w-0 items-center gap-3 transition-colors hover:text-accent"
               >
-                <Phone className="h-4 w-4" />
+                <Phone className="h-4 w-4 shrink-0" />
                 +880 1787 960 556
               </a>
             </div>

@@ -39,31 +39,31 @@ export async function Hero() {
           {/* Left Content */}
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Live Status Badge */}
-            <span className="inline-flex items-center gap-3 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 text-sm font-medium text-green-600 backdrop-blur dark:text-green-400">
-              <span className="relative flex h-3 w-3">
+            <span className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-2 text-xs font-medium text-green-600 backdrop-blur sm:gap-3 sm:px-4 sm:text-sm dark:text-green-400">
+              <span className="relative flex h-3 w-3 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
                 <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
               </span>
               Available for new projects
             </span>
 
-            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+            <h1 className="mt-6 font-display text-3xl font-bold leading-[1.05] tracking-tight break-words sm:text-5xl md:text-6xl">
               {title}
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {subtitle}
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" variant="accent">
+            <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+              <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
                 <Link href="/projects">
                   Show My Work
                   <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
 
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
                 <Link href="/contact">Let's Talk</Link>
               </Button>
             </div>

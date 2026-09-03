@@ -107,10 +107,9 @@ export function AdminProjectsClient({
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex w-full items-center justify-between">
-                    <div>
-                        <h1 className="font-display text-3xl font-bold">
+            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                        <h1 className="font-display text-2xl font-bold sm:text-3xl">
                             Projects
                         </h1>
 
@@ -120,12 +119,12 @@ export function AdminProjectsClient({
                     </div>
 
                     <Button
+                        className="w-full sm:w-auto"
                         onClick={() => setCreating(true)}
                     >
                         <Plus className="h-4 w-4" />
                         New Project
                     </Button>
-                </div>
             </div>
 
             <div className="rounded-2xl border border-border bg-card">

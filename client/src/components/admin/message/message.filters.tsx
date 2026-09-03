@@ -26,8 +26,8 @@ export function MessageFilters({
   onStatusChange,
 }: MessageFiltersProps) {
   return (
-    <div className="flex flex-wrap gap-3">
-      <div className="relative w-full sm:w-64">
+    <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+      <div className="relative w-full min-w-0 sm:w-64">
         <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
         <Input
@@ -39,7 +39,7 @@ export function MessageFilters({
       </div>
 
       <Select value={status} onValueChange={onStatusChange}>
-        <SelectTrigger className="w-40 h-11 rounded-xl bg-background/50 border-border/80 focus:ring-1 focus:ring-primary">
+        <SelectTrigger className="h-11 w-full rounded-xl bg-background/50 border-border/80 focus:ring-1 focus:ring-primary sm:w-40">
           <SelectValue />
         </SelectTrigger>
 

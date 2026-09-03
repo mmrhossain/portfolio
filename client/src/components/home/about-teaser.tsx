@@ -10,14 +10,14 @@ export function AboutTeaser() {
       </div>
       <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-[72px]">
+          <h2 className="font-display text-3xl font-bold leading-[1.1] tracking-tight break-words sm:text-5xl md:text-6xl lg:text-[72px]">
             I&apos;ve been{' '}
-            <span className="rounded-xl bg-foreground px-3 text-background">Developing</span>
+            <span className="inline-block rounded-xl bg-foreground px-2 text-background sm:px-3">Developing</span>
             <br />
             Websites since{' '}
-            <span className="rounded-xl bg-foreground px-3 text-background">2023</span>
+            <span className="inline-block rounded-xl bg-foreground px-2 text-background sm:px-3">2023</span>
           </h2>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             I start every new client interaction with an in-depth discovery call where we get to know
             each other and recommend the best course of action.
           </p>

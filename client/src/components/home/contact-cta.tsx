@@ -13,11 +13,11 @@ export function ContactCta() {
               <span className="h-px w-8 bg-accent" />
               Contact
             </span>
-            <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[76px]">
+            <h2 className="font-display text-3xl font-bold leading-[1.05] tracking-tight break-words sm:text-5xl md:text-6xl lg:text-[76px]">
               Interested in{' '}
-              <span className="rounded-xl bg-foreground px-3 text-background">work</span> together?
+              <span className="inline-block rounded-xl bg-foreground px-2 text-background sm:px-3">work</span> together?
             </h2>
-            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               I start every new client interaction with an in-depth discovery call where we get to
               know each other and recommend the best course of action.
             </p>

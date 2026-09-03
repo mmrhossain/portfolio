@@ -117,21 +117,21 @@ export default async function ProjectDetailPage({
                         </span>
                     </div>
 
-                    <h1 className="font-display break-words bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
+                    <h1 className="font-display break-words bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
                         {project.title}
                     </h1>
 
-                    <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+                    <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
                         {project.description}
                     </p>
 
                     {/* Action Buttons */}
-                    <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                    <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
                         {project.liveUrl && (
                             <Button
                                 asChild
                                 size="lg"
-                                className="h-12 rounded-2xl px-7 shadow-xl shadow-accent/20 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+                                className="h-12 w-full rounded-2xl px-7 shadow-xl shadow-accent/20 transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto"
                             >
                                 <Link
                                     href={project.liveUrl}
@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({
                                 asChild
                                 variant="outline"
                                 size="lg"
-                                className="h-12 rounded-2xl border-border/80 bg-card/40 px-7 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:bg-card/80 active:scale-95"
+                                className="h-12 w-full rounded-2xl border-border/80 bg-card/40 px-7 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:bg-card/80 active:scale-95 sm:w-auto"
                             >
                                 <Link
                                     href={project.repoUrl}
@@ -168,25 +168,25 @@ export default async function ProjectDetailPage({
                     </div>
 
                     {/* Project Stats */}
-                    <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                        <div className="rounded-2xl border border-border/60 bg-card/40 p-4 text-left">
+                    <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Category</p>
-                            <p className="mt-1 font-medium">Web Application</p>
+                            <p className="mt-1 break-words font-medium">Web Application</p>
                         </div>
 
-                        <div className="rounded-2xl border border-border/60 bg-card/40 p-4 text-left">
+                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Technologies</p>
                             <p className="mt-1 font-medium">{project.tags?.length ?? 0}+</p>
                         </div>
 
-                        <div className="rounded-2xl border border-border/60 bg-card/40 p-4 text-left">
+                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Repository</p>
                             <p className="mt-1 font-medium">
                                 {project.repoUrl ? "Public" : "Private"}
                             </p>
                         </div>
 
-                        <div className="rounded-2xl border border-border/60 bg-card/40 p-4 text-left">
+                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Status</p>
                             <p className="mt-1 font-medium">Completed</p>
                         </div>
@@ -211,7 +211,7 @@ export default async function ProjectDetailPage({
                 {/* Content */}
                 <div className="mx-auto mt-16 max-w-3xl space-y-12">
                     {/* Overview */}
-                    <section className="lg:border border-border/60 rounded-[2rem]  bg-card/30 lg:p-6 lg:shadow-sm backdrop-blur-xl">
+                    <section className="rounded-[2rem] border-border/60 bg-card/30 p-4 backdrop-blur-xl sm:p-5 lg:border lg:p-6 lg:shadow-sm">
                         <div className="mb-6 flex items-center gap-3">
                             <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
                                 <Terminal className="h-5 w-5" />
@@ -222,7 +222,7 @@ export default async function ProjectDetailPage({
                             </h2>
                         </div>
 
-                        <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none break-words">
+                        <div className="prose prose-neutral max-w-none break-words dark:prose-invert sm:prose-lg">
                             <ReactMarkdown>
                                 {project.longDescription}
                             </ReactMarkdown>
@@ -231,7 +231,7 @@ export default async function ProjectDetailPage({
 
                     {/* Tech Stack */}
                     {project.tags && project.tags.length > 0 && (
-                        <section className="lg:border border-border/60 rounded-[2rem]  bg-card/20 lg:p-6 backdrop-blur-xl">
+                        <section className="rounded-[2rem] border-border/60 bg-card/20 p-4 backdrop-blur-xl sm:p-5 lg:border lg:p-6">
                             <div className="mb-6 flex items-center gap-3">
                                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
                                     <Cpu className="h-5 w-5" />
@@ -257,8 +257,8 @@ export default async function ProjectDetailPage({
                     )}
 
                     {/* CTA */}
-                    <section className="rounded-[2rem] border border-border/60 bg-card/20 p-8 text-center sm:p-10">
-                        <h2 className="text-3xl font-bold tracking-tight">
+                    <section className="rounded-[2rem] border border-border/60 bg-card/20 p-5 text-center sm:p-10">
+                        <h2 className="text-2xl font-bold tracking-tight break-words sm:text-3xl">
                             Interested in Similar Work?
                         </h2>
 
@@ -266,12 +266,12 @@ export default async function ProjectDetailPage({
                             Explore more projects or get in touch to discuss your next idea.
                         </p>
 
-                        <div className="mt-8 flex flex-wrap justify-center gap-4">
-                            <Button asChild>
+                        <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
+                            <Button asChild className="w-full sm:w-auto">
                                 <Link href="/projects">View More Projects</Link>
                             </Button>
 
-                            <Button variant="outline" asChild>
+                            <Button variant="outline" asChild className="w-full sm:w-auto">
                                 <Link href="/contact">Contact Me</Link>
                             </Button>
                         </div>

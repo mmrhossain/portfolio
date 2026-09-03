@@ -14,14 +14,14 @@ export function BlogTeaser({ blogs }: BlogTeaserProps) {
   return (
     <section className="py-20">
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:gap-6 lg:mb-0">
           <SectionHeading
             eyebrow="Recent Blogs"
             title="All Recent Blogs"
             description="Insights and tutorials on full-stack development, React, and modern web tooling."
-            className="mb-0"
+            className="mb-0 min-w-0"
           />
-          <Button asChild variant="outline" className="mb-12">
+          <Button asChild variant="outline" className="mb-0 w-full sm:w-auto lg:mb-12">
             <Link href="/blogs">
               View all posts
               <ArrowRight className="h-4 w-4" />

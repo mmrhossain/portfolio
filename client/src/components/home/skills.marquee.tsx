@@ -49,7 +49,7 @@ interface SkillsMarqueeProps {
 export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
   if (skills.length === 0) {
     return (
-      <section className="overflow-hidden rounded-[40px] bg-black py-20 text-white dark:bg-gray-900">
+      <section className="overflow-hidden rounded-3xl bg-black py-20 text-white dark:bg-gray-900 sm:rounded-[32px] lg:rounded-[40px]">
         <div className="container-page">
           <div className="text-center text-gray-400">
             Skills could not be loaded right now.
@@ -63,7 +63,7 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
   const duration = Math.max(24, skills.length * 4);
 
   return (
-    <section className="overflow-hidden rounded-[40px] bg-black py-20 text-white dark:bg-gray-900">
+    <section className="overflow-hidden rounded-3xl bg-black py-20 text-white dark:bg-gray-900 sm:rounded-[32px] lg:rounded-[40px]">
       <div className="container-page">
         <div className="mb-12 space-y-4">
           <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
@@ -71,11 +71,11 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
             Why Choose Me
           </span>
 
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
+          <h2 className="text-3xl font-bold tracking-tight break-words sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
             My Extensive List of Skills
           </h2>
 
-          <p className="max-w-2xl text-lg leading-relaxed text-gray-400">
+          <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
             Building modern web applications with a focus on performance,
             scalability, user experience, and clean architecture.
           </p>

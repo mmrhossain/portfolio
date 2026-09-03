@@ -114,7 +114,7 @@ export function UsersTable({
     }
 
     return (
-        <>
+        <div className="min-w-0 overflow-x-auto">
             <Table className="min-w-[720px]">
                 <TableHeader>
                     <TableRow>
@@ -141,9 +141,9 @@ export function UsersTable({
                 <TableBody>
                     {users.map((user) => (
                         <TableRow key={user.id}>
-                            <TableCell>
-                                <div className="flex items-center gap-3">
-                                    <Avatar className="h-9 w-9">
+                            <TableCell className="min-w-0">
+                                <div className="flex min-w-0 items-center gap-3">
+                                    <Avatar className="h-9 w-9 shrink-0">
                                         {user.avatarUrl && (
                                             <AvatarImage
                                                 src={user.avatarUrl}
@@ -156,12 +156,12 @@ export function UsersTable({
                                         </AvatarFallback>
                                     </Avatar>
 
-                                    <div>
-                                        <p className="font-medium">
+                                    <div className="min-w-0">
+                                        <p className="truncate font-medium">
                                             {user.name}
                                         </p>
 
-                                        <p className="text-xs text-muted-foreground">
+                                        <p className="truncate text-xs text-muted-foreground">
                                             {user.email}
                                         </p>
                                     </div>

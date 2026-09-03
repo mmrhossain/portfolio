@@ -25,7 +25,7 @@ export async function WorkProcess() {
     : fallbackSteps;
 
   return (
-    <section className="overflow-hidden rounded-[48px] bg-[#141414] py-20 text-white dark:bg-gray-900">
+    <section className="overflow-hidden rounded-3xl bg-[#141414] py-20 text-white dark:bg-gray-900 sm:rounded-[40px] lg:rounded-[48px]">
       <div className="container-page">
         <SectionHeading
           eyebrow="Work Process"
@@ -37,20 +37,20 @@ export async function WorkProcess() {
             <div
               key={`${step.title}-${index}`}
               className={cn(
-                'rounded-md p-8 transition-transform duration-300 hover:-translate-y-1',
+                'rounded-md p-5 transition-transform duration-300 hover:-translate-y-1 sm:p-8',
                 index === 1 ? 'bg-[#C5FF41] text-black' : 'bg-white/[0.06] text-white',
               )}
             >
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-6 flex items-center justify-between gap-3">
                 <span
                   className={cn(
-                    'rounded-full px-5 py-1 text-lg font-medium',
+                    'min-w-0 break-words rounded-full px-3 py-1 text-base font-medium sm:px-5 sm:text-lg',
                     index === 1 ? 'bg-black text-white' : 'bg-[#C5FFEE] text-black',
                   )}
                 >
                   {step.title}
                 </span>
-                <span className="font-display text-4xl font-bold opacity-30">0{index + 1}</span>
+                <span className="shrink-0 font-display text-3xl font-bold opacity-30 sm:text-4xl">0{index + 1}</span>
               </div>
               <p className="leading-relaxed">{step.description}</p>
             </div>

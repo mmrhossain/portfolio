@@ -132,7 +132,7 @@ export function AdminSidebar({user}: { user: User }) {
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
         <Link
           href="/"
-          className="font-display text-xl font-extrabold uppercase tracking-tight"
+          className="min-w-0 font-display text-xl font-extrabold uppercase tracking-tight"
         >
           dev<span className="text-accent">.monir</span>
         </Link>
@@ -140,7 +140,7 @@ export function AdminSidebar({user}: { user: User }) {
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="h-11 w-11">
                 <BarChart3 className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
@@ -148,6 +148,7 @@ export function AdminSidebar({user}: { user: User }) {
               {navItems.map((item) => (
                 <DropdownMenuItem
                   key={item.path}
+                  className="min-h-11"
                   onClick={() => router.push(item.path)}
                 >
                   <item.icon className="h-4 w-4" />
@@ -157,7 +158,7 @@ export function AdminSidebar({user}: { user: User }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={handleLogout}
-                className="text-destructive"
+                className="min-h-11 text-destructive"
               >
                 <LogOut className="h-4 w-4" />
                 Log out

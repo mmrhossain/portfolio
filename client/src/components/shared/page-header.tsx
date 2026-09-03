@@ -17,11 +17,11 @@ export function PageHeader({ eyebrow, title, description, className }: PageHeade
           <span className="h-px w-8 bg-accent" />
         </span>
       )}
-      <h1 className="mx-auto max-w-3xl font-display text-4xl font-bold tracking-tight break-words sm:text-5xl md:text-6xl lg:text-7xl">
+      <h1 className="mx-auto max-w-3xl font-display text-3xl font-bold tracking-tight break-words sm:text-5xl md:text-6xl lg:text-7xl">
         {title}
       </h1>
       {description && (
-        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground mb-2">
+        <p className="mx-auto mb-2 max-w-2xl px-1 text-base leading-relaxed text-muted-foreground sm:text-lg">
           {description}
         </p>
       )}

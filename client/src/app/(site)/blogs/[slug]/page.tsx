@@ -56,7 +56,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
             <div className="mx-auto max-w-3xl">
               <Badge variant="secondary">{blog.category}</Badge>
-              <h1 className="mt-6 font-display text-4xl font-bold leading-tight tracking-tight break-words sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 font-display text-3xl font-bold leading-tight tracking-tight break-words sm:text-5xl lg:text-6xl">
                 {blog.title}
               </h1>
 
@@ -81,7 +81,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         <div className="container-page mt-10">
-          <div className="relative mx-auto aspect-[16/7] w-full max-w-4xl overflow-hidden rounded-md shadow-lg">
+          <div className="relative mx-auto aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-md shadow-lg sm:aspect-[16/7]">
             <Image
                 src={blog.coverImage}
                 alt={blog.title}
@@ -92,7 +92,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             />
           </div>
 
-          <div className="prose prose-lg prose-neutral mx-auto mt-12 max-w-3xl break-words dark:prose-invert prose-headings:font-display prose-p:leading-relaxed">
+          <div className="prose prose-neutral mx-auto mt-12 max-w-3xl break-words dark:prose-invert sm:prose-lg prose-headings:font-display prose-p:leading-relaxed">
             <ReactMarkDown>{blog?.content}</ReactMarkDown>
           </div>
 

@@ -15,14 +15,14 @@ export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   return (
     <section className="py-20">
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:gap-6 lg:mb-0">
           <SectionHeading
             eyebrow="Recent Projects"
             title="Featured Projects"
             description="A selection of products and experiences I've designed and built."
-            className="mb-2"
+            className="mb-0 min-w-0 lg:mb-2"
           />
-          <Button asChild variant="outline" className="mb-12">
+          <Button asChild variant="outline" className="mb-0 w-full sm:w-auto lg:mb-12">
             <Link href="/projects">
               View all projects
               <ArrowRight className="h-4 w-4" />
