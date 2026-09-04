@@ -46,11 +46,11 @@ export function BlogTable({
                               loading = false,
                           }: Props) {
     return (
-        <div className="w-full overflow-x-auto rounded-2xl border">
-            <Table className="min-w-[900px]">
+        <div className="w-full min-w-0 overflow-x-auto rounded-2xl border">
+            <Table className="min-w-[720px] lg:min-w-[900px]">
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[400px]">
+                        <TableHead className="min-w-0 lg:w-[400px]">
                             Blog
                         </TableHead>
 
@@ -75,7 +75,7 @@ export function BlogTable({
                 <TableBody>
                     {blogs.map((blog) => (
                         <TableRow key={blog.id}>
-                            <TableCell className="w-[400px]">
+                            <TableCell className="min-w-0 lg:w-[400px]">
                                 <div className="flex items-center gap-3 min-w-0">
                                     <Image
                                         src={blog.coverImage}

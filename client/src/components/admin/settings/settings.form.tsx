@@ -227,15 +227,15 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
         </CardContent>
       </Card>
 
-      <Card className="rounded-2xl border-border/80 bg-card/50 backdrop-blur-sm shadow-sm">
+      <Card className="min-w-0 rounded-2xl border-border/80 bg-card/50 shadow-sm backdrop-blur-sm">
         <CardContent className="space-y-5 pt-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold">Process Steps</h3>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="min-w-0 text-base font-semibold">Process Steps</h3>
 
             <Button
               type="button"
               variant="outline"
-              className="h-10 rounded-xl border-border/85 bg-background/50 hover:bg-background/80"
+              className="h-10 shrink-0 rounded-xl border-border/85 bg-background/50 hover:bg-background/80"
               onClick={addStep}
             >
               <Plus className="mr-2 h-4 w-4" />
@@ -246,7 +246,7 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="rounded-xl border border-border/85 p-4 space-y-3 bg-background/30 backdrop-blur-xs relative"
+              className="relative min-w-0 space-y-3 rounded-xl border border-border/85 bg-background/30 p-4 backdrop-blur-xs"
             >
               <div className="space-y-1.5">
                 <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">

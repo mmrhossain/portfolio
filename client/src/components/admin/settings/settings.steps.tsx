@@ -53,11 +53,11 @@ export function SettingsSteps({
     };
 
     return (
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
             {steps.map((step, index) => (
                 <div
                     key={index}
-                    className="space-y-2 rounded-lg border p-4"
+                    className="min-w-0 space-y-2 rounded-lg border p-4"
                 >
                     <Input
                         value={step.title}

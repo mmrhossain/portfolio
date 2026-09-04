@@ -35,11 +35,11 @@ export function NavbarClient({ user }: NavbarClientProps) {
     const pathname = usePathname();
 
     return (
-        <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
-            <nav className="container-page flex h-16 items-center justify-between">
+        <header className="sticky top-0 z-50 min-w-0 border-b border-border bg-background/80 backdrop-blur">
+            <nav className="container-page flex h-16 min-w-0 items-center justify-between gap-2 px-0 lg:px-6">
                 <Link
                     href="/"
-                    className="min-w-0 font-display text-xl font-extrabold uppercase tracking-tight sm:text-2xl"
+                    className="min-w-0 truncate font-display text-xl font-extrabold uppercase tracking-tight sm:text-2xl"
                     onClick={() => setOpen(false)}
                 >
                     dev<span className="text-lime-500">.monir</span>
@@ -124,7 +124,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
 
             {open && (
                 <div className="border-t border-border bg-background px-4 py-6 sm:px-6 lg:hidden">
-                    <div className="flex flex-col gap-4">
+                    <div className="flex min-w-0 flex-col gap-4">
                         {navItems.map((item) => {
                             const active = pathname === item.path;
 
@@ -134,7 +134,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                                     href={item.path}
                                     onClick={() => setOpen(false)}
                                     className={cn(
-                                        "flex min-h-11 items-center text-lg font-medium",
+                                        "min-h-11 py-2 text-lg font-medium",
                                         active
                                             ? "text-foreground"
                                             : "text-muted-foreground",
@@ -145,9 +145,9 @@ export function NavbarClient({ user }: NavbarClientProps) {
                             );
                         })}
 
-                        <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+                        <div className="mt-2 flex min-w-0 flex-col gap-3 sm:flex-row">
                             {user ? (
-                                <Button asChild className="h-11 w-full sm:flex-1">
+                                <Button asChild className="flex-1">
                                     <Link
                                         href="/dashboard"
                                         onClick={() => setOpen(false)}
@@ -156,7 +156,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                                     </Link>
                                 </Button>
                             ) : (
-                                <Button asChild className="h-11 w-full sm:flex-1">
+                                <Button asChild className="flex-1">
                                     <Link
                                         href="/login"
                                         onClick={() => setOpen(false)}
@@ -169,7 +169,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                             <Button
                                 asChild
                                 variant="accent"
-                                className="h-11 w-full sm:flex-1"
+                                className="flex-1"
                             >
                                 <Link
                                     href="/contact"

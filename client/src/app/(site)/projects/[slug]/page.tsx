@@ -45,6 +45,9 @@ export async function generateMetadata({
         title: `${project.title} | Monir Hossain`,
         description: project.description,
         keywords: project.tags,
+        alternates: {
+            canonical: `/projects/${slug}`,
+        },
 
         openGraph: {
             title: project.title,
@@ -61,10 +64,10 @@ export async function generateMetadata({
         },
 
         twitter: {
-            card: "summary_large_image",
+            card: project.image ? "summary_large_image" : "summary",
             title: project.title,
             description: project.description,
-            images: [project.image],
+            images: project.image ? [project.image] : undefined,
         },
     };
 }
@@ -83,14 +86,46 @@ export default async function ProjectDetailPage({
         return notFound();
     }
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-monir.vercel.app";
+    const projectJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        name: project.title,
+        description: project.description,
+        image: project.image || undefined,
+        url: `${siteUrl}/projects/${slug}`,
+        dateCreated: project.createdAt,
+        dateModified: project.updatedAt,
+        keywords: project.tags,
+        author: { "@type": "Person", name: "Monir Hossain" },
+        ...(project.liveUrl ? { sameAs: [project.liveUrl] } : {}),
+    };
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteUrl}/projects` },
+            { "@type": "ListItem", position: 3, name: project.title, item: `${siteUrl}/projects/${slug}` },
+        ],
+    };
+
     return (
-        <article className="relative min-h-screen overflow-hidden bg-background pb-32">
+        <article className="relative min-h-screen min-w-0 overflow-hidden bg-background pb-16 sm:pb-32">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
 
 
             {/* Background Glow */}
             <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[350px] w-[1000px] -translate-x-1/2 bg-gradient-to-tr from-accent/15 via-primary/10 to-transparent blur-[120px]" />
 
-            <div className="container-page pt-12">
+            <div className="container-page min-w-0 pt-8 sm:pt-12">
                 {/* Back Button */}
                 <Button
                     asChild
@@ -108,7 +143,7 @@ export default async function ProjectDetailPage({
                 </Button>
 
                 {/* Header */}
-                <div className="mx-auto max-w-4xl text-center">
+                <div className="mx-auto min-w-0 max-w-4xl text-center">
                     <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 px-4 py-1.5 backdrop-blur-xl">
                         <Sparkles className="h-3.5 w-3.5 animate-pulse text-accent" />
 
@@ -117,7 +152,7 @@ export default async function ProjectDetailPage({
                         </span>
                     </div>
 
-                    <h1 className="font-display break-words bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
+                    <h1 className="break-words font-display bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
                         {project.title}
                     </h1>
 
@@ -126,12 +161,12 @@ export default async function ProjectDetailPage({
                     </p>
 
                     {/* Action Buttons */}
-                    <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+                    <div className="mt-8 flex w-full min-w-0 flex-col items-stretch justify-center gap-4 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
                         {project.liveUrl && (
                             <Button
                                 asChild
                                 size="lg"
-                                className="h-12 w-full rounded-2xl px-7 shadow-xl shadow-accent/20 transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto"
+                                className="h-12 rounded-2xl px-7 shadow-xl shadow-accent/20 transition-all duration-300 hover:scale-[1.02] active:scale-95"
                             >
                                 <Link
                                     href={project.liveUrl}
@@ -151,7 +186,7 @@ export default async function ProjectDetailPage({
                                 asChild
                                 variant="outline"
                                 size="lg"
-                                className="h-12 w-full rounded-2xl border-border/80 bg-card/40 px-7 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:bg-card/80 active:scale-95 sm:w-auto"
+                                className="h-12 rounded-2xl border-border/80 bg-card/40 px-7 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:bg-card/80 active:scale-95"
                             >
                                 <Link
                                     href={project.repoUrl}
@@ -168,33 +203,33 @@ export default async function ProjectDetailPage({
                     </div>
 
                     {/* Project Stats */}
-                    <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+                    <div className="mt-8 grid min-w-0 grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-4 sm:gap-4">
                         <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Category</p>
-                            <p className="mt-1 break-words font-medium">Web Application</p>
+                            <p className="mt-1 truncate font-medium">Web Application</p>
                         </div>
 
                         <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Technologies</p>
-                            <p className="mt-1 font-medium">{project.tags?.length ?? 0}+</p>
+                            <p className="mt-1 truncate font-medium">{project.tags?.length ?? 0}+</p>
                         </div>
 
                         <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Repository</p>
-                            <p className="mt-1 font-medium">
+                            <p className="mt-1 truncate font-medium">
                                 {project.repoUrl ? "Public" : "Private"}
                             </p>
                         </div>
 
                         <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
                             <p className="text-xs text-muted-foreground">Status</p>
-                            <p className="mt-1 font-medium">Completed</p>
+                            <p className="mt-1 truncate font-medium">Completed</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Hero Image */}
-                <div className="group relative mx-auto mt-16 aspect-[16/9] w-full max-w-5xl overflow-hidden rounded-md border border-border/60 bg-card/40 shadow-2xl backdrop-blur-2xl">
+                <div className="group relative mx-auto mt-10 aspect-[16/9] w-full min-w-0 max-w-5xl overflow-hidden rounded-md border border-border/60 bg-card/40 shadow-2xl backdrop-blur-2xl sm:mt-16">
                     <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
 
                     <Image
@@ -209,9 +244,9 @@ export default async function ProjectDetailPage({
                 </div>
 
                 {/* Content */}
-                <div className="mx-auto mt-16 max-w-3xl space-y-12">
+                <div className="mx-auto mt-10 min-w-0 max-w-3xl space-y-8 sm:mt-16 sm:space-y-12">
                     {/* Overview */}
-                    <section className="rounded-[2rem] border-border/60 bg-card/30 p-4 backdrop-blur-xl sm:p-5 lg:border lg:p-6 lg:shadow-sm">
+                    <section className="rounded-2xl border-border/60 bg-card/30 backdrop-blur-xl lg:rounded-[2rem] lg:border lg:p-6 lg:shadow-sm">
                         <div className="mb-6 flex items-center gap-3">
                             <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
                                 <Terminal className="h-5 w-5" />
@@ -222,7 +257,7 @@ export default async function ProjectDetailPage({
                             </h2>
                         </div>
 
-                        <div className="prose prose-neutral max-w-none break-words dark:prose-invert sm:prose-lg">
+                        <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none break-words">
                             <ReactMarkdown>
                                 {project.longDescription}
                             </ReactMarkdown>
@@ -231,7 +266,7 @@ export default async function ProjectDetailPage({
 
                     {/* Tech Stack */}
                     {project.tags && project.tags.length > 0 && (
-                        <section className="rounded-[2rem] border-border/60 bg-card/20 p-4 backdrop-blur-xl sm:p-5 lg:border lg:p-6">
+                        <section className="rounded-2xl border-border/60 bg-card/20 backdrop-blur-xl lg:rounded-[2rem] lg:border lg:p-6">
                             <div className="mb-6 flex items-center gap-3">
                                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
                                     <Cpu className="h-5 w-5" />
@@ -257,8 +292,8 @@ export default async function ProjectDetailPage({
                     )}
 
                     {/* CTA */}
-                    <section className="rounded-[2rem] border border-border/60 bg-card/20 p-5 text-center sm:p-10">
-                        <h2 className="text-2xl font-bold tracking-tight break-words sm:text-3xl">
+                    <section className="rounded-2xl border border-border/60 bg-card/20 p-5 text-center sm:rounded-[2rem] sm:p-10">
+                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                             Interested in Similar Work?
                         </h2>
 
@@ -266,12 +301,12 @@ export default async function ProjectDetailPage({
                             Explore more projects or get in touch to discuss your next idea.
                         </p>
 
-                        <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
-                            <Button asChild className="w-full sm:w-auto">
+                        <div className="mt-8 flex min-w-0 flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
+                            <Button asChild>
                                 <Link href="/projects">View More Projects</Link>
                             </Button>
 
-                            <Button variant="outline" asChild className="w-full sm:w-auto">
+                            <Button variant="outline" asChild>
                                 <Link href="/contact">Contact Me</Link>
                             </Button>
                         </div>

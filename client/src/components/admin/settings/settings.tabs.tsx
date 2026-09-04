@@ -31,7 +31,7 @@ export function SettingsTabs({
                                  onChange,
                              }: SettingsTabsProps) {
     return (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex min-w-0 flex-wrap gap-2">
             {tabs.map((tab) => (
                 <Button
                     key={tab.id}

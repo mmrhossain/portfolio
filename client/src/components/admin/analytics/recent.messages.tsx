@@ -24,9 +24,9 @@ interface Props {
 export function RecentMessages({ messages }: Props) {
   
   return (
-    <Card >
-      <CardHeader className="flex-row items-center justify-between">
-        <div>
+    <Card className="min-w-0">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2">
+        <div className="min-w-0">
           <CardTitle>Recent messages</CardTitle>
 
           <CardDescription>Latest inquiries</CardDescription>

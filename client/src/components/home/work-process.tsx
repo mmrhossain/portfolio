@@ -25,14 +25,14 @@ export async function WorkProcess() {
     : fallbackSteps;
 
   return (
-    <section className="overflow-hidden rounded-3xl bg-[#141414] py-20 text-white dark:bg-gray-900 sm:rounded-[40px] lg:rounded-[48px]">
+    <section className="overflow-hidden bg-[#141414] py-12 text-white dark:bg-gray-900 lg:py-20">
       <div className="container-page">
         <SectionHeading
           eyebrow="Work Process"
           title="My Work Process"
           className="text-white dark:text-white"
         />
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2">
           {steps.map((step, index) => (
             <div
               key={`${step.title}-${index}`}
@@ -41,16 +41,16 @@ export async function WorkProcess() {
                 index === 1 ? 'bg-[#C5FF41] text-black' : 'bg-white/[0.06] text-white',
               )}
             >
-              <div className="mb-6 flex items-center justify-between gap-3">
+              <div className="mb-6 flex min-w-0 items-center justify-between gap-2">
                 <span
                   className={cn(
-                    'min-w-0 break-words rounded-full px-3 py-1 text-base font-medium sm:px-5 sm:text-lg',
+                    'rounded-full px-3 py-1 text-sm font-medium sm:px-5 sm:text-lg',
                     index === 1 ? 'bg-black text-white' : 'bg-[#C5FFEE] text-black',
                   )}
                 >
                   {step.title}
                 </span>
-                <span className="shrink-0 font-display text-3xl font-bold opacity-30 sm:text-4xl">0{index + 1}</span>
+                <span className="font-display shrink-0 text-3xl font-bold opacity-30 sm:text-4xl">0{index + 1}</span>
               </div>
               <p className="leading-relaxed">{step.description}</p>
             </div>

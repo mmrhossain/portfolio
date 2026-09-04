@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -15,11 +16,12 @@ export function BlogCard({ blog }: BlogCardProps) {
       className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl"
     >
       <div className="relative aspect-[16/9] overflow-hidden">
-        <img
+        <Image
           src={blog.coverImage}
           alt={blog.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
       <div className="flex flex-1 flex-col p-6">

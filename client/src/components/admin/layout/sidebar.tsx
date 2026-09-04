@@ -129,14 +129,14 @@ export function AdminSidebar({user}: { user: User }) {
       </aside>
 
       {/* Mobile top bar */}
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
+      <div className="sticky top-0 z-30 flex min-w-0 items-center justify-between gap-2 border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
         <Link
           href="/"
-          className="min-w-0 font-display text-xl font-extrabold uppercase tracking-tight"
+          className="min-w-0 truncate font-display text-xl font-extrabold uppercase tracking-tight"
         >
           dev<span className="text-accent">.monir</span>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

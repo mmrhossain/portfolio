@@ -37,9 +37,9 @@ export function MessageDetailsDialog({
             open={open}
             onOpenChange={onOpenChange}
         >
-            <DialogContent className="max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-h-[85vh] min-w-0 overflow-y-auto p-4 sm:p-6">
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="min-w-0 break-words pr-8">
                         {message?.subject || "Message"}
                     </DialogTitle>
 

@@ -7,14 +7,23 @@ import { AboutTeaser } from "@/components/home/about-teaser";
 import { BlogTeaser } from "@/components/home/blog-teaser";
 import { ContactCta } from "@/components/home/contact-cta";
 import {serverListBlogs, serverListProjects, serverListSkills} from "@/app/actions";
-
+import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Trusted partner for website development. Building modern, scalable, and high-performance web applications with clean architecture and exceptional user experiences.",
+  alternates: {
+    canonical: "/",
+  },
+};
+
 async function HomeContent() {
   const [projectsResult, blogsResult, skillsResult] = await Promise.all([
-    serverListProjects({ limit: 3, featured: "true" }),
-    serverListBlogs({ limit: 3 }),
+    serverListProjects({ limit: 9, featured: "true" }),
+    serverListBlogs({ limit: 9 }),
     serverListSkills({ limit: 50 }),
   ]);
 

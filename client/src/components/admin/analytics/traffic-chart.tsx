@@ -22,7 +22,7 @@ export function TrafficChart({ days = 30 }: { days?: number }) {
   const max = Math.max(1, ...timeline.map((t) => t.total));
 
   return (
-    <Card className="rounded-2xl border-border/80 bg-card/50 backdrop-blur-sm shadow-sm">
+    <Card className="min-w-0 rounded-2xl border-border/80 bg-card/50 shadow-sm backdrop-blur-sm">
       <CardHeader className="space-y-1">
         <CardTitle className="text-base font-semibold">Page views</CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
@@ -30,7 +30,7 @@ export function TrafficChart({ days = 30 }: { days?: number }) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="min-w-0">
         {isLoading ? (
           <Skeleton className="h-52 w-full rounded-xl" />
         ) : timeline.length === 0 ? (
@@ -38,14 +38,15 @@ export function TrafficChart({ days = 30 }: { days?: number }) {
             No traffic data yet.
           </div>
         ) : (
-          <div className="flex h-52 items-end gap-[2px] overflow-x-clip pt-6 pb-2 sm:gap-1.5">
+          <div className="w-full min-w-0 overflow-x-auto">
+          <div className="flex h-52 min-w-[480px] items-end gap-[2px] pt-6 pb-2 sm:min-w-0 sm:gap-1.5">
             {timeline.map((point, index) => {
               const heightPercent = Math.max(8, (point.total / max) * 100);
 
               return (
                 <div
                   key={point.date}
-                  className="group relative flex-1 flex flex-col items-center h-full justify-end"
+                  className="group relative flex h-full min-w-0 flex-1 flex-col items-center justify-end"
                 >
                   <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-2.5 py-1 text-[10px] font-medium text-background opacity-0 shadow-lg transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-1 z-20">
                     {point.total} views ({formatDate(point.date)})
@@ -61,6 +62,7 @@ export function TrafficChart({ days = 30 }: { days?: number }) {
                 </div>
               );
             })}
+          </div>
           </div>
         )}
       </CardContent>

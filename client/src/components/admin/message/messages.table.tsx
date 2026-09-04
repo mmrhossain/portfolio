@@ -43,6 +43,7 @@ export function MessagesTable({
                                   onDelete,
                               }: Props) {
     return (
+        <div className="w-full min-w-0 overflow-x-auto">
         <Table className="min-w-[720px]">
             <TableHeader>
                 <TableRow>
@@ -63,28 +64,30 @@ export function MessagesTable({
                         className="cursor-pointer"
                         onClick={() => onOpen(message)}
                     >
-                        <TableCell>
-                            <div className="flex items-center gap-2">
+                        <TableCell className="min-w-0">
+                            <div className="flex min-w-0 items-center gap-2">
                                 {message.status === "NEW" ? (
-                                    <Mail className="h-4 w-4 text-primary" />
+                                    <Mail className="h-4 w-4 shrink-0 text-primary" />
                                 ) : (
-                                    <MailOpen className="h-4 w-4 text-muted-foreground" />
+                                    <MailOpen className="h-4 w-4 shrink-0 text-muted-foreground" />
                                 )}
 
-                                <div>
-                                    <p className="font-medium">
+                                <div className="min-w-0">
+                                    <p className="truncate font-medium">
                                         {message.name}
                                     </p>
 
-                                    <p className="text-xs text-muted-foreground">
+                                    <p className="truncate text-xs text-muted-foreground">
                                         {message.email}
                                     </p>
                                 </div>
                             </div>
                         </TableCell>
 
-                        <TableCell>
-                            {message.subject || "No subject"}
+                        <TableCell className="min-w-0">
+                            <span className="block truncate">
+                                {message.subject || "No subject"}
+                            </span>
                         </TableCell>
 
                         <TableCell>
@@ -116,5 +119,6 @@ export function MessagesTable({
                 ))}
             </TableBody>
         </Table>
+        </div>
     );
 }

@@ -13,6 +13,22 @@ export const metadata: Metadata = {
   title: 'Blog',
   description:
     'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
+  alternates: {
+    canonical: '/blogs',
+  },
+  openGraph: {
+    title: 'Blog',
+    description:
+      'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
+    images: [{ url: '/images/seo-image.PNG' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog',
+    description:
+      'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
+    images: ['/images/seo-image.PNG'],
+  },
 };
 
 interface BlogsPageProps {
@@ -26,7 +42,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
 
   const { data: blogs, meta } = await serverListBlogs({
     page,
-    limit: 9,
+    limit: 12,
     search: search || undefined,
   });
 

@@ -25,16 +25,16 @@ export function StatCard({
   accent = "default",
 }: StatCardProps) {
   return (
-    <Card>
-      <CardContent className="flex items-center justify-between p-6">
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground">{label}</p>
-          <p className="font-display text-3xl font-bold">{value}</p>
-          {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+    <Card className="min-w-0">
+      <CardContent className="flex min-w-0 items-center justify-between gap-3 p-4 sm:p-6">
+        <div className="min-w-0 space-y-1">
+          <p className="truncate text-sm font-medium text-muted-foreground">{label}</p>
+          <p className="font-display truncate text-2xl font-bold sm:text-3xl">{value}</p>
+          {hint && <p className="truncate text-xs text-muted-foreground">{hint}</p>}
         </div>
         <div
           className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-2xl",
+            "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl",
             accentClasses[accent],
           )}
         >

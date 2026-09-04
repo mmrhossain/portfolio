@@ -306,7 +306,7 @@ export function BlogForm({
             Tags
           </Label>
 
-          <div className="flex gap-2">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row">
             <Input
                 value={tagInput}
                 onChange={(event) =>
@@ -320,7 +320,7 @@ export function BlogForm({
                 }}
                 placeholder="Add a tag and press Enter"
                 disabled={submitting}
-                className="h-11 rounded-xl border-border/80 bg-background/50 transition-all focus-visible:ring-1 focus-visible:ring-primary"
+                className="h-11 min-w-0 flex-1 rounded-xl border-border/80 bg-background/50 transition-all focus-visible:ring-1 focus-visible:ring-primary"
             />
 
             <Button
@@ -328,7 +328,7 @@ export function BlogForm({
                 variant="outline"
                 onClick={addTag}
                 disabled={submitting}
-                className="h-11 rounded-xl px-4"
+                className="h-11 w-full shrink-0 rounded-xl px-4 sm:w-auto"
             >
               <Plus className="mr-1 h-4 w-4" />
               Add

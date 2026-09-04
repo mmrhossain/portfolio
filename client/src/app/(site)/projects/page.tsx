@@ -13,6 +13,22 @@ export const metadata: Metadata = {
   title: 'Projects',
   description:
     'Explore featured full-stack projects built with Next.js, React, Node.js, and modern web technologies.',
+  alternates: {
+    canonical: '/projects',
+  },
+  openGraph: {
+    title: 'Projects',
+    description:
+      'Explore featured full-stack projects built with Next.js, React, Node.js, and modern web technologies.',
+    images: [{ url: '/images/seo-image.PNG' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Projects',
+    description:
+      'Explore featured full-stack projects built with Next.js, React, Node.js, and modern web technologies.',
+    images: ['/images/seo-image.PNG'],
+  },
 };
 
 interface ProjectsPageProps {
@@ -27,12 +43,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
 
   const { data: projects, meta } = await serverListProjects({
     page,
-    limit: 6,
+    limit: 12,
     search: search || undefined,
-    // featured: featured ? 'true' : undefined,
+    featured: featured ? 'true' : undefined,
   });
-
-  console.log(projects);
 
   const paginationQuery = {
     search: search || undefined,

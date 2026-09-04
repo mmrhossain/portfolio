@@ -81,7 +81,7 @@ export function UsersDialog({
                 }
             }}
         >
-            <DialogContent className="max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-h-[85vh] min-w-0 overflow-y-auto p-4 sm:p-6">
                 <DialogHeader>
                     <DialogTitle>
                         Edit User
@@ -96,8 +96,8 @@ export function UsersDialog({
                 {user && (
                     <div className="space-y-4">
                         <div className="rounded-xl border p-4">
-                            <div className="flex items-center justify-between">
-                                <div>
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                                <div className="min-w-0">
                                     <p className="font-medium">
                                         Role
                                     </p>
@@ -129,8 +129,8 @@ export function UsersDialog({
                         </div>
 
                         <div className="rounded-xl border p-4">
-                            <div className="flex items-center justify-between">
-                                <div>
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                                <div className="min-w-0">
                                     <p className="font-medium">
                                         Account Status
                                     </p>

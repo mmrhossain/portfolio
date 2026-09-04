@@ -172,9 +172,9 @@ export function MessagesClient() {
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="min-w-0">
-                    <h1 className="font-display text-2xl font-bold sm:text-3xl">
+                    <h1 className="font-display text-3xl font-bold">
                         Messages
                     </h1>
 
@@ -202,7 +202,7 @@ export function MessagesClient() {
                 />
             </div>
 
-            <div className="min-w-0 overflow-x-auto rounded-2xl border border-border bg-card">
+            <div className="min-w-0 rounded-2xl border border-border bg-card">
                 {isLoading ? (
                     <TableRowsSkeleton rows={8} />
                 ) : isError ? (

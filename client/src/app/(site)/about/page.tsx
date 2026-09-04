@@ -11,6 +11,22 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About",
+    description:
+      "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
+    images: [{ url: "/images/seo-image.PNG" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About",
+    description:
+      "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
+    images: ["/images/seo-image.PNG"],
+  },
 };
 
 export default async function AboutPage() {

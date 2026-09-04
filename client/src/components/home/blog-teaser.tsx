@@ -12,16 +12,16 @@ interface BlogTeaserProps {
 
 export function BlogTeaser({ blogs }: BlogTeaserProps) {
   return (
-    <section className="py-20">
+    <section className="py-12 lg:py-20">
       <div className="container-page">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:gap-6 lg:mb-0">
+        <div className="flex min-w-0 flex-wrap items-end justify-between gap-4 lg:gap-6">
           <SectionHeading
             eyebrow="Recent Blogs"
             title="All Recent Blogs"
             description="Insights and tutorials on full-stack development, React, and modern web tooling."
             className="mb-0 min-w-0"
           />
-          <Button asChild variant="outline" className="mb-0 w-full sm:w-auto lg:mb-12">
+          <Button asChild variant="outline" className="mb-6 shrink-0 lg:mb-12">
             <Link href="/blogs">
               View all posts
               <ArrowRight className="h-4 w-4" />
@@ -32,7 +32,7 @@ export function BlogTeaser({ blogs }: BlogTeaserProps) {
         {blogs.length === 0 ? (
           <EmptyState title="No blogs yet" description="Recent blog posts will appear here." />
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {blogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}

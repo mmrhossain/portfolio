@@ -18,7 +18,7 @@ function SkillCard({
   proficiency,
 }: SkillCardProps) {
   return (
-    <div className="group flex w-[260px] shrink-0 flex-col gap-3 rounded-md border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg">
+    <div className="group flex w-[220px] shrink-0 flex-col gap-3 rounded-md border border-border bg-card p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg sm:w-[260px] sm:p-6">
       <div className="flex items-center justify-between">
         <Image
           src={iconUrl}
@@ -49,7 +49,7 @@ interface SkillsMarqueeProps {
 export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
   if (skills.length === 0) {
     return (
-      <section className="overflow-hidden rounded-3xl bg-black py-20 text-white dark:bg-gray-900 sm:rounded-[32px] lg:rounded-[40px]">
+      <section className="overflow-hidden bg-black py-12 text-white dark:bg-gray-900 lg:py-20">
         <div className="container-page">
           <div className="text-center text-gray-400">
             Skills could not be loaded right now.
@@ -63,15 +63,15 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
   const duration = Math.max(24, skills.length * 4);
 
   return (
-    <section className="overflow-hidden rounded-3xl bg-black py-20 text-white dark:bg-gray-900 sm:rounded-[32px] lg:rounded-[40px]">
+    <section className="overflow-hidden bg-black py-12 text-white dark:bg-gray-900 lg:py-20">
       <div className="container-page">
-        <div className="mb-12 space-y-4">
+        <div className="mb-8 min-w-0 space-y-3 sm:mb-12 sm:space-y-4">
           <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
             <span className="h-px w-8 bg-accent" />
             Why Choose Me
           </span>
 
-          <h2 className="text-3xl font-bold tracking-tight break-words sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
+          <h2 className="break-words text-3xl font-bold tracking-tight sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
             My Extensive List of Skills
           </h2>
 
@@ -90,7 +90,7 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-black to-transparent sm:w-24" />
 
         <div
-          className={cn("flex gap-5 px-6 hover:[animation-play-state:paused]")}
+          className={cn("flex gap-4 px-4 hover:[animation-play-state:paused] sm:gap-5 sm:px-6")}
           style={{
             animation: `scroll ${duration}s linear infinite`,
             width: "max-content",

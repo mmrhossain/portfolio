@@ -215,7 +215,7 @@ export function ProjectForm({
           <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Tags
           </Label>
-          <div className="flex gap-2">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row">
             <Input
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
@@ -227,13 +227,13 @@ export function ProjectForm({
               }}
               placeholder="Add a tag and press Enter"
               disabled={loading}
-              className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
+              className="h-11 min-w-0 flex-1 rounded-xl border-border/80 bg-background/50 transition-all focus-visible:ring-1 focus-visible:ring-primary"
             />
             <Button
               type="button"
               variant="outline"
               onClick={addTag}
-              className="h-11 px-4 rounded-xl"
+              className="h-11 w-full shrink-0 rounded-xl px-4 sm:w-auto"
             >
               <Plus className="h-4 w-4 mr-1" />
               Add

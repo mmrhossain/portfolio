@@ -18,7 +18,7 @@ export function SettingsClient({
 
 
     return (
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
             <SettingsTabs
                 activeTab={tab}
                 onChange={setTab}

@@ -64,3 +64,5 @@ apps/api/prisma/*.db
 
 # seed file
 server/prisma/seed/
+
+.idea

@@ -166,9 +166,9 @@ export function SkillsClient({
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                    <h1 className="font-display text-2xl font-bold sm:text-3xl">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h1 className="font-display text-3xl font-bold">
                         Skills
                     </h1>
 
@@ -178,7 +178,6 @@ export function SkillsClient({
                 </div>
 
                 <Button
-                    className="w-full sm:w-auto"
                     onClick={openCreate}
                 >
                     Create Skill

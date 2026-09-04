@@ -9,7 +9,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ eyebrow, title, description, className }: PageHeaderProps) {
   return (
-    <div className={cn('space-y-4 py-12 text-center sm:py-16', className)}>
+    <div className={cn('min-w-0 space-y-3 py-8 text-center sm:space-y-4 sm:py-16', className)}>
       {eyebrow && (
         <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           <span className="h-px w-8 bg-accent" />
@@ -17,11 +17,11 @@ export function PageHeader({ eyebrow, title, description, className }: PageHeade
           <span className="h-px w-8 bg-accent" />
         </span>
       )}
-      <h1 className="mx-auto max-w-3xl font-display text-3xl font-bold tracking-tight break-words sm:text-5xl md:text-6xl lg:text-7xl">
+      <h1 className="mx-auto max-w-3xl break-words font-display text-3xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
         {title}
       </h1>
       {description && (
-        <p className="mx-auto mb-2 max-w-2xl px-1 text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mx-auto mb-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
           {description}
         </p>
       )}

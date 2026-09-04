@@ -114,7 +114,8 @@ export function UsersTable({
     }
 
     return (
-        <div className="min-w-0 overflow-x-auto">
+        <>
+            <div className="w-full min-w-0 overflow-x-auto">
             <Table className="min-w-[720px]">
                 <TableHeader>
                     <TableRow>
@@ -259,6 +260,7 @@ export function UsersTable({
                     ))}
                 </TableBody>
             </Table>
+            </div>
 
             {meta && (
                 <Pagination

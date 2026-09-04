@@ -6,6 +6,22 @@ export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Get in touch with Monir Hossain for freelance projects, collaborations, or just to say hello.',
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    title: 'Contact',
+    description:
+      'Get in touch with Monir Hossain for freelance projects, collaborations, or just to say hello.',
+    images: [{ url: '/images/seo-image.PNG' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact',
+    description:
+      'Get in touch with Monir Hossain for freelance projects, collaborations, or just to say hello.',
+    images: ['/images/seo-image.PNG'],
+  },
 };
 
 export default function ContactPage() {

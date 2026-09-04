@@ -22,11 +22,11 @@ export async function Hero() {
     "Building modern, scalable, and high-performance web applications with clean architecture and exceptional user experiences.";
 
   return (
-    <section className="relative overflow-hidden py-10 md:py-12 2xl:py-42">
+    <section className="relative overflow-hidden py-8 md:py-12 2xl:py-42">
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-30">
         <Image
-          src="/images/bg-gradiant1.svg"
+          src="/images/bg/bg-gradiant1.svg"
           alt="Background"
           fill
           priority
@@ -35,19 +35,19 @@ export async function Hero() {
       </div>
 
       <div className="container-page">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Left Content */}
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="min-w-0 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Live Status Badge */}
-            <span className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-2 text-xs font-medium text-green-600 backdrop-blur sm:gap-3 sm:px-4 sm:text-sm dark:text-green-400">
-              <span className="relative flex h-3 w-3 shrink-0">
+            <span className="inline-flex items-center gap-3 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 text-sm font-medium text-green-600 backdrop-blur dark:text-green-400">
+              <span className="relative flex h-3 w-3">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
                 <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
               </span>
               Available for new projects
             </span>
 
-            <h1 className="mt-6 font-display text-3xl font-bold leading-[1.05] tracking-tight break-words sm:text-5xl md:text-6xl">
+            <h1 className="mt-6 break-words font-display text-3xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
               {title}
             </h1>
 
@@ -55,30 +55,30 @@ export async function Hero() {
               {subtitle}
             </p>
 
-            <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
-              <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
+            <div className="mt-8 flex flex-col items-stretch gap-4 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
+              <Button asChild size="lg" variant="accent">
                 <Link href="/projects">
                   Show My Work
                   <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
 
-              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+              <Button asChild size="lg" variant="outline">
                 <Link href="/contact">Let's Talk</Link>
               </Button>
             </div>
           </div>
 
           {/* Right Image */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative">
+          <div className="flex min-w-0 justify-center lg:justify-end">
+            <div className="relative w-full max-w-[400px] 2xl:max-w-[520px]">
               {/* Animated Glow */}
               <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-gradient-to-r from-teal-400/30 via-cyan-400/20 to-lime-400/30 blur-3xl" />
 
               {/* Floating Image Container */}
               <div className="mx-auto w-full max-w-[400px] animate-[float_6s_ease-in-out_infinite] 2xl:max-w-[520px]">
                 <Image
-                  src="/images/portfolio.webp"
+                  src="/images/default/portfolio.webp"
                   alt="Monir Hossain"
                   width={520}
                   height={520}

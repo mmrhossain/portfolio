@@ -57,19 +57,15 @@ export function ProjectsFilters({
   };
 
   return (
-    <div className="mb-10 flex w-full flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
+    <div className="mb-10 flex w-full min-w-0 flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
       <Tabs
         value={initialFilter}
         onValueChange={(value) => setFilter(value as "all" | "featured")}
-        className="w-full sm:w-auto"
+        className="w-full min-w-0 sm:w-auto"
       >
         <TabsList className="h-11 w-full sm:h-10 sm:w-auto">
-          <TabsTrigger value="all" className="min-h-11 flex-1 px-2 sm:min-h-0 sm:flex-none sm:px-3">
-            All projects
-          </TabsTrigger>
-          <TabsTrigger value="featured" className="min-h-11 flex-1 px-2 sm:min-h-0 sm:flex-none sm:px-3">
-            Featured
-          </TabsTrigger>
+          <TabsTrigger value="all" className="flex-1 sm:flex-none">All projects</TabsTrigger>
+          <TabsTrigger value="featured" className="flex-1 sm:flex-none">Featured</TabsTrigger>
         </TabsList>
       </Tabs>
 

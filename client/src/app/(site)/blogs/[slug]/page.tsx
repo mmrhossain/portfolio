@@ -26,12 +26,21 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   return {
     title: blog.title,
     description: blog.excerpt,
+    alternates: {
+      canonical: `/blogs/${slug}`,
+    },
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
       images: [blog.coverImage],
       type: 'article',
       publishedTime: blog.publishedAt ?? undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.title,
+      description: blog.excerpt,
+      images: [blog.coverImage],
     },
   };
 }
@@ -43,10 +52,42 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const blog = response?.data;
   if (!blog) return notFound();
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dev-monir.vercel.app';
+  const blogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: blog.title,
+    description: blog.excerpt,
+    image: blog.coverImage,
+    datePublished: blog.publishedAt ?? undefined,
+    dateModified: blog.updatedAt,
+    author: blog.author
+      ? { '@type': 'Person', name: blog.author.name }
+      : { '@type': 'Person', name: 'Monir Hossain' },
+    url: `${siteUrl}/blogs/${slug}`,
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${siteUrl}/blogs` },
+      { '@type': 'ListItem', position: 3, name: blog.title, item: `${siteUrl}/blogs/${slug}` },
+    ],
+  };
+
   return (
-      <article className="pb-24">
-        <div className="relative overflow-hidden">
-          <div className="container-page pt-10">
+      <article className="min-w-0 pb-16 sm:pb-24">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+        <div className="relative min-w-0 overflow-hidden">
+          <div className="container-page min-w-0 pt-6 sm:pt-10">
             <Button asChild variant="ghost" size="sm" className="-ml-3 mb-8">
               <Link href="/blogs">
                 <ArrowLeft className="h-4 w-4" />
@@ -54,13 +95,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </Link>
             </Button>
 
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto min-w-0 max-w-3xl">
               <Badge variant="secondary">{blog.category}</Badge>
-              <h1 className="mt-6 font-display text-3xl font-bold leading-tight tracking-tight break-words sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 break-words font-display text-3xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
                 {blog.title}
               </h1>
 
-              <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+              <div className="mt-6 flex min-w-0 flex-wrap items-center gap-3 text-sm text-muted-foreground sm:gap-5">
                 {blog.author && (
                     <span className="flex items-center gap-2">
                   <User className="h-4 w-4" />
@@ -80,8 +121,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
 
-        <div className="container-page mt-10">
-          <div className="relative mx-auto aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-md shadow-lg sm:aspect-[16/7]">
+        <div className="container-page mt-8 min-w-0 sm:mt-10">
+          <div className="relative mx-auto aspect-[16/7] w-full min-w-0 max-w-4xl overflow-hidden rounded-md shadow-lg">
             <Image
                 src={blog.coverImage}
                 alt={blog.title}
@@ -92,11 +133,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             />
           </div>
 
-          <div className="prose prose-neutral mx-auto mt-12 max-w-3xl break-words dark:prose-invert sm:prose-lg prose-headings:font-display prose-p:leading-relaxed">
+          <div className="prose prose-neutral prose-lg mx-auto mt-8 max-w-4xl min-w-0 break-words dark:prose-invert prose-headings:font-display prose-p:leading-relaxed sm:mt-12">
             <ReactMarkDown>{blog?.content}</ReactMarkDown>
           </div>
 
-          <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-border pt-8">
+          <div className="mx-auto mt-8 flex min-w-0 max-w-4xl flex-wrap gap-2 border-t border-border pt-8 sm:mt-12">
             {blog.tags.map((tag) => (
                 <Badge key={tag} variant="outline">
                   #{tag}
