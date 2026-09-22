@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
 import { AboutTeaser } from "@/components/home/about-teaser";
-import { SkillsMarquee } from "@/components/home/skills.marquee";
 import { WorkProcess } from "@/components/home/work-process";
 import { PageHeader } from "@/components/shared/page-header";
-import {serverListSkills} from "@/app/actions";
+import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
@@ -30,8 +28,6 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const { data: skills } = await serverListSkills({ limit: 50 });
-
   return (
     <>
       <PageHeader
@@ -40,7 +36,6 @@ export default async function AboutPage() {
         description="A full-stack developer who loves turning complex problems into simple, beautiful, and intuitive products."
       />
       <AboutTeaser />
-      <SkillsMarquee skills={skills} />
       <WorkProcess />
     </>
   );

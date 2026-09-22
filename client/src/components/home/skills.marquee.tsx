@@ -1,22 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { Skill } from "@/types";
+import Image from "next/image";
 
 interface SkillCardProps {
   name: string;
   description: string;
   iconUrl: string;
-  proficiency: number;
 }
 
-function SkillCard({
-  name,
-  description,
-  iconUrl,
-  proficiency,
-}: SkillCardProps) {
+function SkillCard({ name, description, iconUrl }: SkillCardProps) {
   return (
     <div className="group flex w-[220px] shrink-0 flex-col gap-3 rounded-md border border-border bg-card p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg sm:w-[260px] sm:p-6">
       <div className="flex items-center justify-between">
@@ -28,12 +22,10 @@ function SkillCard({
           className="rounded-xl bg-muted p-1.5 object-contain"
         />
 
-        <span className="text-xs font-semibold text-muted-foreground">
-          {proficiency}%
-        </span>
+        <h3 className="font-display text-xl font-semibold text-foreground">
+          {name}
+        </h3>
       </div>
-
-      <h3 className="font-display text-xl font-bold">{name}</h3>
 
       <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
         {description}
@@ -90,7 +82,9 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-black to-transparent sm:w-24" />
 
         <div
-          className={cn("flex gap-4 px-4 hover:[animation-play-state:paused] sm:gap-5 sm:px-6")}
+          className={cn(
+            "flex gap-4 px-4 hover:[animation-play-state:paused] sm:gap-5 sm:px-6",
+          )}
           style={{
             animation: `scroll ${duration}s linear infinite`,
             width: "max-content",
@@ -102,7 +96,6 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
               name={skill.name}
               description={skill.description}
               iconUrl={skill.iconUrl}
-              proficiency={skill.proficiency}
             />
           ))}
         </div>
