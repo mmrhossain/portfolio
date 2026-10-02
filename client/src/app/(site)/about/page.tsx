@@ -1,9 +1,9 @@
+import { serverListEducation, serverListExperience } from "@/app/actions";
 import { EducationTimeline } from "@/components/about/education-timeline";
 import { ExperienceTimeline } from "@/components/about/experience-timeline";
 import { AboutTeaser } from "@/components/home/about-teaser";
 import { WorkProcess } from "@/components/home/work-process";
 import { PageHeader } from "@/components/shared/page-header";
-import { serverListEducation, serverListExperience } from "@/app/actions";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
