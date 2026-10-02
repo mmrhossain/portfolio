@@ -9,11 +9,9 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-   "ignoreDeprecations": "6.0",
 
     "strict": true,
     "esModuleInterop": true,
