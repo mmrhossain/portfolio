@@ -79,6 +79,43 @@ model Skill {
   @@map("skills")
 }
 
+model Experience {
+  id          String    @id @default(uuid())
+  company     String
+  role        String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  description String
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([order])
+  @@index([startDate])
+  @@map("experiences")
+}
+
+model Education {
+  id          String    @id @default(uuid())
+  institution String
+  degree      String
+  field       String?
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  description String
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([order])
+  @@index([startDate])
+  @@map("educations")
+}
+
 model Project {
   id              String        @id @default(uuid())
   title           String

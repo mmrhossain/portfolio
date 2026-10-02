@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from "../models.js"
-export type * from "./prismaNamespace.js"
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -55,6 +55,8 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   PasswordResetToken: 'PasswordResetToken',
   Skill: 'Skill',
+  Experience: 'Experience',
+  Education: 'Education',
   Project: 'Project',
   Blog: 'Blog',
   Message: 'Message',
@@ -134,6 +136,41 @@ export const SkillScalarFieldEnum = {
 } as const
 
 export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof SkillScalarFieldEnum]
+
+
+export const ExperienceScalarFieldEnum = {
+  id: 'id',
+  company: 'company',
+  role: 'role',
+  location: 'location',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExperienceScalarFieldEnum = (typeof ExperienceScalarFieldEnum)[keyof typeof ExperienceScalarFieldEnum]
+
+
+export const EducationScalarFieldEnum = {
+  id: 'id',
+  institution: 'institution',
+  degree: 'degree',
+  field: 'field',
+  location: 'location',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
 
 
 export const ProjectScalarFieldEnum = {

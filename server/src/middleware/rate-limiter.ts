@@ -28,7 +28,7 @@ export const authLimiter = rateLimit({
     success: false,
     error: {
       code: "TOO_MANY_REQUESTS",
-      message: "Too many login attempts. Please try again later.",
+      message: "Too many attempts. Please try again later.",
     },
   },
   handler: (_req, _res, next, options) => {

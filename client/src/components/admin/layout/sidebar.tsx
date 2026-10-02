@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3,
+  Briefcase,
   FileText,
   FolderKanban,
+  GraduationCap,
   Inbox,
   LayoutDashboard,
   LogOut,
@@ -36,6 +38,8 @@ const navItems = [
   { label: "Projects", path: "/dashboard/projects", icon: FolderKanban },
   { label: "Blogs", path: "/dashboard/blogs", icon: FileText },
   { label: "Skills", path: "/dashboard/skills", icon: Sparkles },
+  { label: "Experience", path: "/dashboard/experience", icon: Briefcase },
+  { label: "Education", path: "/dashboard/education", icon: GraduationCap },
   { label: "Messages", path: "/dashboard/messages", icon: Inbox },
   { label: "Settings", path: "/dashboard/settings", icon: Settings },
 ];

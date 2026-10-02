@@ -14,6 +14,28 @@ export function formatDate(date: string | Date | null | undefined): string {
   }).format(new Date(date));
 }
 
+export function formatMonthYear(date: string | Date | null | undefined): string {
+  if (!date) return 'Present';
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+  }).format(new Date(date));
+}
+
+export function formatDateRange(
+  startDate: string | Date,
+  endDate: string | Date | null | undefined,
+): string {
+  return `${formatMonthYear(startDate)} — ${endDate ? formatMonthYear(endDate) : 'Present'}`;
+}
+
+export function toDateInputValue(date: string | Date | null | undefined): string {
+  if (!date) return '';
+  const value = new Date(date);
+  if (Number.isNaN(value.getTime())) return '';
+  return value.toISOString().slice(0, 10);
+}
+
 export function formatDateTime(date: string | Date | null | undefined): string {
   if (!date) return 'N/A';
   return new Intl.DateTimeFormat('en-US', {

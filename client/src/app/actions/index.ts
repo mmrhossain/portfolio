@@ -6,6 +6,8 @@ import {cookies} from "next/headers";
 import type {
     ApiResponse,
     Blog,
+    Education,
+    Experience,
     PaginationMeta,
     Project,
     Skill, User,
@@ -236,6 +238,52 @@ export async function serverListSkills(
     const payload = await serverFetchRaw<Skill[]>(buildQuery("/skills", params), {
         tags: [CACHE_TAGS.skills],
     });
+
+    return {
+        data: payload?.data ?? [],
+        meta: payload?.meta,
+    };
+}
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+export async function serverListExperience(
+    params: {
+        page?: number;
+        limit?: number;
+    } = {},
+): Promise<PaginatedResult<Experience>> {
+    const payload = await serverFetchRaw<Experience[]>(
+        buildQuery("/experience", params),
+        {
+            tags: [CACHE_TAGS.experience],
+        },
+    );
+
+    return {
+        data: payload?.data ?? [],
+        meta: payload?.meta,
+    };
+}
+
+/* =========================
+   EDUCATION
+========================= */
+
+export async function serverListEducation(
+    params: {
+        page?: number;
+        limit?: number;
+    } = {},
+): Promise<PaginatedResult<Education>> {
+    const payload = await serverFetchRaw<Education[]>(
+        buildQuery("/education", params),
+        {
+            tags: [CACHE_TAGS.education],
+        },
+    );
 
     return {
         data: payload?.data ?? [],

@@ -20,7 +20,7 @@ import * as $Enums from "./enums.js"
 import * as $Class from "./internal/class.js"
 import * as Prisma from "./internal/prismaNamespace.js"
 
-export * as $Enums from "./enums.js"
+export * as $Enums from './enums.js'
 export * from "./enums.js"
 /**
  * ## Prisma Client
@@ -61,6 +61,16 @@ export type PasswordResetToken = Prisma.PasswordResetTokenModel
  * 
  */
 export type Skill = Prisma.SkillModel
+/**
+ * Model Experience
+ * 
+ */
+export type Experience = Prisma.ExperienceModel
+/**
+ * Model Education
+ * 
+ */
+export type Education = Prisma.EducationModel
 /**
  * Model Project
  * 

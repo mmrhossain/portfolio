@@ -8,5 +8,7 @@ export const CACHE_TAGS = {
   projects: 'projects',
   blogs: 'blogs',
   skills: 'skills',
+  experience: 'experience',
+  education: 'education',
   settings: 'settings',
 } as const;

@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { authService } from "./auth.service.js";
 import { sendPasswordResetEmail } from "../../shared/mailer.js";
 import { UnauthorizedError } from "../../shared/errors.js";
+import { logger } from "../../shared/logger.js";
 import {sendSuccess} from "../../shared/response.js";
 import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "../../shared/utils/tokens.js";
 
@@ -87,7 +88,11 @@ export const authController = {
       const { resetToken } = await authService.forgotPassword(req.body);
       if (resetToken) {
         const resetLink = authService.buildResetLink(resetToken);
-        await sendPasswordResetEmail(req.body.email, resetLink);
+        try {
+          await sendPasswordResetEmail(req.body.email, resetLink);
+        } catch (mailError) {
+          logger.error({ err: mailError }, "Failed to send password reset email.");
+        }
       }
       return sendSuccess(res, null, {
         message:

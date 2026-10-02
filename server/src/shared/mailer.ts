@@ -1,4 +1,5 @@
-import { env } from "../config/env.js";
+import { Resend } from "resend";
+import { env, isProduction } from "../config/env.js";
 import { logger } from "./logger.js";
 
 export interface SendMailInput {
@@ -8,32 +9,41 @@ export interface SendMailInput {
   text?: string;
 }
 
-/**
- * Mailer abstraction. In development / when SMTP is not configured the email
- * payload is logged (and the reset link surfaced) so the flow can be tested
- * locally. Wire up a real transport (e.g. Nodemailer) for production.
- */
-export async function sendMail(_input: SendMailInput): Promise<boolean> {
-  const hasSmtp = Boolean(env.SMTP_HOST && env.SMTP_USER && env.SMTP_PASS);
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
-  if (!hasSmtp) {
+export async function sendMail(input: SendMailInput): Promise<boolean> {
+  if (!resend) {
     logger.info(
-      { subject: _input.subject, to: _input.to },
-      'SMTP not configured - email not sent. HTML preview:',
+      { subject: input.subject, to: input.to },
+      "Resend is not configured - email not sent."
     );
-    logger.info(_input.html);
+    if (!isProduction) {
+      logger.info(input.text ?? input.html);
+    }
     return false;
   }
 
-  // TODO(production): integrate Nodemailer / Resend / SendGrid transport here.
-  logger.info({ to: _input.to, subject: _input.subject }, 'Mail queued via transport');
+  const { error } = await resend.emails.send({
+    from: env.MAIL_FROM ?? "",
+    to: input.to,
+    subject: input.subject,
+    html: input.html,
+    text: input.text,
+  });
+
+  if (error) {
+    logger.error({ err: error, to: input.to }, "Resend failed to send mail.");
+    throw error;
+  }
+
+  logger.info({ to: input.to, subject: input.subject }, "Mail sent via Resend.");
   return true;
 }
 
 export function sendPasswordResetEmail(to: string, resetLink: string): Promise<boolean> {
   return sendMail({
     to,
-    subject: 'Reset your Dev Monir password',
+    subject: "Reset your Dev Monir password",
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px;">
         <h2 style="margin-top: 0;">Reset your password</h2>

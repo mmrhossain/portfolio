@@ -32,6 +32,35 @@ export interface Skill {
   updatedAt: string;
 }
 
+export interface Experience {
+  id: string;
+  company: string;
+  role: string;
+  location: string | null;
+  startDate: string;
+  endDate: string | null;
+  description: string;
+  order: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Education {
+  id: string;
+  institution: string;
+  degree: string;
+  field: string | null;
+  location: string | null;
+  startDate: string;
+  endDate: string | null;
+  description: string;
+  order: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -167,4 +196,46 @@ export const initialSkillForm: SkillFormValues = {
     category: 'FRONTEND',
     proficiency: 80,
     order: 0,
+};
+
+export interface ExperienceFormValues {
+  company: string;
+  role: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  order: number;
+}
+
+export const initialExperienceForm: ExperienceFormValues = {
+  company: '',
+  role: '',
+  location: '',
+  startDate: '',
+  endDate: '',
+  description: '',
+  order: 0,
+};
+
+export interface EducationFormValues {
+  institution: string;
+  degree: string;
+  field: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  order: number;
+}
+
+export const initialEducationForm: EducationFormValues = {
+  institution: '',
+  degree: '',
+  field: '',
+  location: '',
+  startDate: '',
+  endDate: '',
+  description: '',
+  order: 0,
 };

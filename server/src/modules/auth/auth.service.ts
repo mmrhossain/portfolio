@@ -297,6 +297,6 @@ export const authService = {
   },
 
   buildResetLink(token: string): string {
-    return `${env.APP_URL}/reset-password?token=${token}`;
+    return `${env.APP_URL}/reset-password?token=${encodeURIComponent(token)}`;
   },
 };
