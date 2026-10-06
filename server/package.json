@@ -8,8 +8,6 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "tsx --watch src/server.ts",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed/seed.ts"
   },
@@ -43,9 +41,9 @@
     "@types/pg": "^8.21.0",
     "dotenv": "^17.4.2",
     "prisma": "7.10.0",
-    "tsc-alias": "^1.9.1",
+    "tsc-alias": "^1.9.7",
     "tsx": "^4.23.11",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "allowScripts": {
     "esbuild@0.28.2": true,
