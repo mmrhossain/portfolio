@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { richTextSchema } from "../../shared/schemas/rich-text.js";
 
 const dateString = z.iso.datetime({ offset: true }).or(z.iso.date());
 
@@ -8,7 +9,7 @@ export const createExperienceSchema = z.object({
   location: z.string().max(200).optional().nullable(),
   startDate: dateString,
   endDate: dateString.optional().nullable(),
-  description: z.string().min(5).max(2000),
+  description: richTextSchema({ min: 5, max: 2000 }),
   order: z.number().int().default(0),
   isActive: z.boolean().optional(),
 });

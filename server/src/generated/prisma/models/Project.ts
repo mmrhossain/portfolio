@@ -38,8 +38,6 @@ export type ProjectMinAggregateOutputType = {
   id: string | null
   title: string | null
   slug: string | null
-  description: string | null
-  longDescription: string | null
   image: string | null
   repoUrl: string | null
   liveUrl: string | null
@@ -54,8 +52,6 @@ export type ProjectMaxAggregateOutputType = {
   id: string | null
   title: string | null
   slug: string | null
-  description: string | null
-  longDescription: string | null
   image: string | null
   repoUrl: string | null
   liveUrl: string | null
@@ -97,8 +93,6 @@ export type ProjectMinAggregateInputType = {
   id?: true
   title?: true
   slug?: true
-  description?: true
-  longDescription?: true
   image?: true
   repoUrl?: true
   liveUrl?: true
@@ -113,8 +107,6 @@ export type ProjectMaxAggregateInputType = {
   id?: true
   title?: true
   slug?: true
-  description?: true
-  longDescription?: true
   image?: true
   repoUrl?: true
   liveUrl?: true
@@ -233,8 +225,8 @@ export type ProjectGroupByOutputType = {
   id: string
   title: string
   slug: string
-  description: string
-  longDescription: string | null
+  description: runtime.JsonValue
+  longDescription: runtime.JsonValue | null
   image: string
   repoUrl: string | null
   liveUrl: string | null
@@ -273,8 +265,8 @@ export type ProjectWhereInput = {
   id?: Prisma.StringFilter<"Project"> | string
   title?: Prisma.StringFilter<"Project"> | string
   slug?: Prisma.StringFilter<"Project"> | string
-  description?: Prisma.StringFilter<"Project"> | string
-  longDescription?: Prisma.StringNullableFilter<"Project"> | string | null
+  description?: Prisma.JsonFilter<"Project">
+  longDescription?: Prisma.JsonNullableFilter<"Project">
   image?: Prisma.StringFilter<"Project"> | string
   repoUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   liveUrl?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -310,8 +302,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   title?: Prisma.StringFilter<"Project"> | string
-  description?: Prisma.StringFilter<"Project"> | string
-  longDescription?: Prisma.StringNullableFilter<"Project"> | string | null
+  description?: Prisma.JsonFilter<"Project">
+  longDescription?: Prisma.JsonNullableFilter<"Project">
   image?: Prisma.StringFilter<"Project"> | string
   repoUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   liveUrl?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -352,8 +344,8 @@ export type ProjectScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Project"> | string
   title?: Prisma.StringWithAggregatesFilter<"Project"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Project"> | string
-  description?: Prisma.StringWithAggregatesFilter<"Project"> | string
-  longDescription?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  description?: Prisma.JsonWithAggregatesFilter<"Project">
+  longDescription?: Prisma.JsonNullableWithAggregatesFilter<"Project">
   image?: Prisma.StringWithAggregatesFilter<"Project"> | string
   repoUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   liveUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -369,8 +361,8 @@ export type ProjectCreateInput = {
   id?: string
   title: string
   slug: string
-  description: string
-  longDescription?: string | null
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image: string
   repoUrl?: string | null
   liveUrl?: string | null
@@ -386,8 +378,8 @@ export type ProjectUncheckedCreateInput = {
   id?: string
   title: string
   slug: string
-  description: string
-  longDescription?: string | null
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image: string
   repoUrl?: string | null
   liveUrl?: string | null
@@ -403,8 +395,8 @@ export type ProjectUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  longDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image?: Prisma.StringFieldUpdateOperationsInput | string
   repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   liveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -420,8 +412,8 @@ export type ProjectUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  longDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image?: Prisma.StringFieldUpdateOperationsInput | string
   repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   liveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -437,8 +429,8 @@ export type ProjectCreateManyInput = {
   id?: string
   title: string
   slug: string
-  description: string
-  longDescription?: string | null
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image: string
   repoUrl?: string | null
   liveUrl?: string | null
@@ -454,8 +446,8 @@ export type ProjectUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  longDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image?: Prisma.StringFieldUpdateOperationsInput | string
   repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   liveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -471,8 +463,8 @@ export type ProjectUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  longDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  longDescription?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   image?: Prisma.StringFieldUpdateOperationsInput | string
   repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   liveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,8 +509,6 @@ export type ProjectMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  longDescription?: Prisma.SortOrder
   image?: Prisma.SortOrder
   repoUrl?: Prisma.SortOrder
   liveUrl?: Prisma.SortOrder
@@ -533,8 +523,6 @@ export type ProjectMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  longDescription?: Prisma.SortOrder
   image?: Prisma.SortOrder
   repoUrl?: Prisma.SortOrder
   liveUrl?: Prisma.SortOrder
@@ -641,8 +629,8 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     title: string
     slug: string
-    description: string
-    longDescription: string | null
+    description: runtime.JsonValue
+    longDescription: runtime.JsonValue | null
     image: string
     repoUrl: string | null
     liveUrl: string | null
@@ -1078,8 +1066,8 @@ export interface ProjectFieldRefs {
   readonly id: Prisma.FieldRef<"Project", 'String'>
   readonly title: Prisma.FieldRef<"Project", 'String'>
   readonly slug: Prisma.FieldRef<"Project", 'String'>
-  readonly description: Prisma.FieldRef<"Project", 'String'>
-  readonly longDescription: Prisma.FieldRef<"Project", 'String'>
+  readonly description: Prisma.FieldRef<"Project", 'Json'>
+  readonly longDescription: Prisma.FieldRef<"Project", 'Json'>
   readonly image: Prisma.FieldRef<"Project", 'String'>
   readonly repoUrl: Prisma.FieldRef<"Project", 'String'>
   readonly liveUrl: Prisma.FieldRef<"Project", 'String'>

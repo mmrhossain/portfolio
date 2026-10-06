@@ -1,21 +1,21 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 
-export async  function proxy(request: NextRequest) {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+export function proxy(request: NextRequest) {
+  const accessToken = request.cookies.get("accessToken")?.value;
+  const refreshToken = request.cookies.get("refreshToken")?.value;
+  const hasSession = Boolean(accessToken || refreshToken);
 
   const { pathname } = request.nextUrl;
 
   const isAuthPage = pathname.startsWith("/login");
   const isProtectedPage = pathname.startsWith("/dashboard");
 
-  if (isProtectedPage && !accessToken) {
+  if (isProtectedPage && !hasSession) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (isAuthPage && accessToken) {
+  if (isAuthPage && hasSession) {
     const callbackUrl = request.nextUrl.searchParams.get("callbackUrl");
     const redirectDestination = callbackUrl || "/";
     return NextResponse.redirect(new URL(redirectDestination, request.url));

@@ -39,7 +39,6 @@ export type BlogMinAggregateOutputType = {
   title: string | null
   slug: string | null
   excerpt: string | null
-  content: string | null
   coverImage: string | null
   category: string | null
   readTime: number | null
@@ -55,7 +54,6 @@ export type BlogMaxAggregateOutputType = {
   title: string | null
   slug: string | null
   excerpt: string | null
-  content: string | null
   coverImage: string | null
   category: string | null
   readTime: number | null
@@ -98,7 +96,6 @@ export type BlogMinAggregateInputType = {
   title?: true
   slug?: true
   excerpt?: true
-  content?: true
   coverImage?: true
   category?: true
   readTime?: true
@@ -114,7 +111,6 @@ export type BlogMaxAggregateInputType = {
   title?: true
   slug?: true
   excerpt?: true
-  content?: true
   coverImage?: true
   category?: true
   readTime?: true
@@ -234,7 +230,7 @@ export type BlogGroupByOutputType = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: runtime.JsonValue
   coverImage: string
   category: string
   tags: string[]
@@ -274,7 +270,7 @@ export type BlogWhereInput = {
   title?: Prisma.StringFilter<"Blog"> | string
   slug?: Prisma.StringFilter<"Blog"> | string
   excerpt?: Prisma.StringFilter<"Blog"> | string
-  content?: Prisma.StringFilter<"Blog"> | string
+  content?: Prisma.JsonFilter<"Blog">
   coverImage?: Prisma.StringFilter<"Blog"> | string
   category?: Prisma.StringFilter<"Blog"> | string
   tags?: Prisma.StringNullableListFilter<"Blog">
@@ -313,7 +309,7 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BlogWhereInput | Prisma.BlogWhereInput[]
   title?: Prisma.StringFilter<"Blog"> | string
   excerpt?: Prisma.StringFilter<"Blog"> | string
-  content?: Prisma.StringFilter<"Blog"> | string
+  content?: Prisma.JsonFilter<"Blog">
   coverImage?: Prisma.StringFilter<"Blog"> | string
   category?: Prisma.StringFilter<"Blog"> | string
   tags?: Prisma.StringNullableListFilter<"Blog">
@@ -356,7 +352,7 @@ export type BlogScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   excerpt?: Prisma.StringWithAggregatesFilter<"Blog"> | string
-  content?: Prisma.StringWithAggregatesFilter<"Blog"> | string
+  content?: Prisma.JsonWithAggregatesFilter<"Blog">
   coverImage?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   category?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   tags?: Prisma.StringNullableListFilter<"Blog">
@@ -373,7 +369,7 @@ export type BlogCreateInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -390,7 +386,7 @@ export type BlogUncheckedCreateInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -407,7 +403,7 @@ export type BlogUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -424,7 +420,7 @@ export type BlogUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -441,7 +437,7 @@ export type BlogCreateManyInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -458,7 +454,7 @@ export type BlogUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -474,7 +470,7 @@ export type BlogUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -522,7 +518,6 @@ export type BlogMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
   category?: Prisma.SortOrder
   readTime?: Prisma.SortOrder
@@ -538,7 +533,6 @@ export type BlogMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
   category?: Prisma.SortOrder
   readTime?: Prisma.SortOrder
@@ -613,7 +607,7 @@ export type BlogCreateWithoutAuthorInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -629,7 +623,7 @@ export type BlogUncheckedCreateWithoutAuthorInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -674,7 +668,7 @@ export type BlogScalarWhereInput = {
   title?: Prisma.StringFilter<"Blog"> | string
   slug?: Prisma.StringFilter<"Blog"> | string
   excerpt?: Prisma.StringFilter<"Blog"> | string
-  content?: Prisma.StringFilter<"Blog"> | string
+  content?: Prisma.JsonFilter<"Blog">
   coverImage?: Prisma.StringFilter<"Blog"> | string
   category?: Prisma.StringFilter<"Blog"> | string
   tags?: Prisma.StringNullableListFilter<"Blog">
@@ -691,7 +685,7 @@ export type BlogCreateManyAuthorInput = {
   title: string
   slug: string
   excerpt: string
-  content: string
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage: string
   category: string
   tags?: Prisma.BlogCreatetagsInput | string[]
@@ -707,7 +701,7 @@ export type BlogUpdateWithoutAuthorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -723,7 +717,7 @@ export type BlogUncheckedUpdateWithoutAuthorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -739,7 +733,7 @@ export type BlogUncheckedUpdateManyWithoutAuthorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   coverImage?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogUpdatetagsInput | string[]
@@ -844,7 +838,7 @@ export type $BlogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     title: string
     slug: string
     excerpt: string
-    content: string
+    content: runtime.JsonValue
     coverImage: string
     category: string
     tags: string[]
@@ -1282,7 +1276,7 @@ export interface BlogFieldRefs {
   readonly title: Prisma.FieldRef<"Blog", 'String'>
   readonly slug: Prisma.FieldRef<"Blog", 'String'>
   readonly excerpt: Prisma.FieldRef<"Blog", 'String'>
-  readonly content: Prisma.FieldRef<"Blog", 'String'>
+  readonly content: Prisma.FieldRef<"Blog", 'Json'>
   readonly coverImage: Prisma.FieldRef<"Blog", 'String'>
   readonly category: Prisma.FieldRef<"Blog", 'String'>
   readonly tags: Prisma.FieldRef<"Blog", 'String[]'>

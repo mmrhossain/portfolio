@@ -1,12 +1,10 @@
-import { UsersClient } from "@/components/admin/users/users.client";
-import { ApiResponse, User } from "@/types";
-import {serverFetch} from "@/app/actions";
+import { UsersClient } from "@/features/user/components/admin/users.client";
+import { serverListUsers } from "@/features/user/api/server";
 
 export default async function AdminUsersPage() {
-  const response: ApiResponse<User[]> = await serverFetch("/users");
-
+  const response = await serverListUsers();
 
   return (
-    <UsersClient initialUsers={response?.data} initialMeta={response.meta} />
+    <UsersClient initialUsers={response.data} initialMeta={response.meta} />
   );
 }

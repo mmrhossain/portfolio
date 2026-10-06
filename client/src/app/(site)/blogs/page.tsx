@@ -1,44 +1,39 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import { PageHeader } from '@/components/shared/page-header';
-import { BlogCard } from '@/components/blogs/blog-card';
-import { EmptyState } from '@/components/shared/empty-state';
-import { PaginationLinks } from '@/components/shared/pagination-links';
-import { BlogsFilters } from '@/components/blogs/blogs-filters';
-import {serverListBlogs} from "@/app/actions";
+import { Suspense } from "react";
+import { PageHeader } from "@/components/shared/page-header";
+import { BlogCard } from "@/features/blog/components/public/blog-card";
+import { EmptyState } from "@/components/shared/empty-state";
+import { PaginationLinks } from "@/components/shared/pagination-links";
+import { BlogsFilters } from "@/features/blog/components/public/blogs-filters";
+import { serverListBlogs } from "@/features/blog/api/server";
+import { createPageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description:
-    'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
-  alternates: {
-    canonical: '/blogs',
-  },
-  openGraph: {
-    title: 'Blog',
-    description:
-      'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
-    images: [{ url: '/images/seo-image.PNG' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Blog',
-    description:
-      'Articles and tutorials on full-stack development, Next.js, React, TypeScript, and modern web tooling.',
-    images: ['/images/seo-image.PNG'],
-  },
-};
+const BLOGS_DESCRIPTION =
+  "Articles by Monir Hossain on full stack development, Next.js, React, TypeScript, and modern web tooling.";
 
 interface BlogsPageProps {
   searchParams: Promise<{ page?: string; search?: string }>;
 }
 
+export async function generateMetadata({ searchParams }: BlogsPageProps) {
+  const params = await searchParams;
+  const page = Math.max(1, Number(params.page) || 1);
+  const hasFilters = Boolean(params.search?.trim() || page > 1);
+
+  return createPageMetadata({
+    title: page > 1 ? `Blog (Page ${page})` : "Blog",
+    description: BLOGS_DESCRIPTION,
+    path: "/blogs",
+    index: !hasFilters,
+    follow: true,
+  });
+}
+
 export default async function BlogsPage({ searchParams }: BlogsPageProps) {
   const params = await searchParams;
   const page = Math.max(1, Number(params.page) || 1);
-  const search = params.search?.trim() ?? '';
+  const search = params.search?.trim() ?? "";
 
   const { data: blogs, meta } = await serverListBlogs({
     page,

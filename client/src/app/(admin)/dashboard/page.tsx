@@ -1,11 +1,8 @@
-import { AnalyticsClient } from "@/components/admin/analytics/analytics.client";
-
-import { ApiResponse } from "@/types";
-import {serverFetch} from "@/app/actions";
+import { AnalyticsClient } from "@/features/analytics/components/analytics.client";
+import { getDashboardSummary } from "@/features/dashboard/api/server";
 
 export default async function AdminPage() {
-
-  const response: ApiResponse<any> = await serverFetch("/dashboard/summary");
+  const response = await getDashboardSummary();
 
   return <AnalyticsClient summary={response?.data} />;
 }

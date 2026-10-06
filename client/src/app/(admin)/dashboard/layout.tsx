@@ -1,11 +1,12 @@
-
-import { AdminSidebar } from "@/components/admin/layout/sidebar";
-import {getMe} from "@/app/actions";
+import { AdminSidebar } from "@/features/dashboard/components/sidebar";
+import { getMe } from "@/features/auth/api/server";
 import {User} from "@/types";
 import type { Metadata } from "next";
+import { noIndexRobots } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
+  title: "Dashboard",
+  robots: noIndexRobots,
 };
 
 export default async function DashboardLayout({

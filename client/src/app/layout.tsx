@@ -1,7 +1,17 @@
 import type {Metadata, Viewport} from "next";
 import {Jost} from "next/font/google";
-import {Providers} from "@/components/providers";
-import {ScrollToTop} from "@/components/site/scroll-to-top";
+import {Providers} from "@/providers";
+import {ScrollToTop} from "@/components/shared/scroll-to-top";
+import {JsonLd} from "@/components/shared/seo/json-ld";
+import {
+    DEFAULT_DESCRIPTION,
+    DEFAULT_OG_IMAGE,
+    PERSON_NAME,
+    SITE_NAME,
+    SITE_URL,
+    TITLE_TEMPLATE,
+    siteGraphJsonLd,
+} from "@/lib/seo";
 
 import "./globals.css";
 
@@ -12,71 +22,56 @@ const jost = Jost({
     weight: ["400", "500", "600", "700", "800"],
 });
 
-const SITE_NAME = "Monir Hossain | Full Stack Developer";
-const SITE_DESCRIPTION =
-    "Monir Hossain is a full-stack developer specializing in Next.js, React, Node.js and modern UI/UX. Explore projects, blogs, and skills.";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-monir.vercel.app";
-
-const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": "Organization",
-            name: "Monir Hossain",
-            url: SITE_URL,
-            logo: `${SITE_URL}/images/favicon.png`,
-            sameAs: [
-                "https://www.linkedin.com/in/mmrhossain",
-                "https://github.com/mmrhossain",
-                "https://facebook.com/MonirHossain20230",
-                "https://wa.me/8801787960556",
-            ],
-        },
-        {
-            "@type": "WebSite",
-            name: SITE_NAME,
-            url: SITE_URL,
-            description: SITE_DESCRIPTION,
-        },
-    ],
-};
-
 export const metadata: Metadata = {
-    metadataBase: new URL(
-        process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-monir.vercel.app",
-    ),
+    metadataBase: new URL(SITE_URL),
     title: {
         default: SITE_NAME,
-        template: `%s | ${SITE_NAME}`,
+        template: TITLE_TEMPLATE,
     },
-    description: SITE_DESCRIPTION,
+    description: DEFAULT_DESCRIPTION,
+    applicationName: SITE_NAME,
+    authors: [{name: PERSON_NAME, url: SITE_URL}],
+    creator: PERSON_NAME,
+    publisher: PERSON_NAME,
+    category: "technology",
     keywords: [
         "Monir Hossain",
-        "portfolio",
-        "full stack developer",
-        "Next.js",
-        "React",
-        "Node.js",
-        "web developer",
+        "Full Stack Developer",
+        "Full Stack Developer Bangladesh",
+        "Next.js Developer Bangladesh",
+        "React Developer Bangladesh",
+        "Node.js Developer Bangladesh",
+        "MERN Stack Developer Bangladesh",
     ],
-    authors: [{name: "Monir Hossain"}],
     openGraph: {
         type: "website",
+        locale: "en_US",
         title: SITE_NAME,
-        description: SITE_DESCRIPTION,
-        images: [{url: "https://res.cloudinary.com/dw0ojh7h8/image/upload/v1788488505/seo-image_p2ftyo.webp"}],
-        url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-monir.vercel.app",
-        siteName: "dev.monir",
+        description: DEFAULT_DESCRIPTION,
+        images: [{url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME}],
+        url: SITE_URL,
+        siteName: SITE_NAME,
     },
     twitter: {
         card: "summary_large_image",
         title: SITE_NAME,
-        description: SITE_DESCRIPTION,
-        images: ["https://res.cloudinary.com/dw0ojh7h8/image/upload/v1788488505/seo-image_p2ftyo.webp"],
+        description: DEFAULT_DESCRIPTION,
+        images: [DEFAULT_OG_IMAGE],
     },
-    robots: {index: true, follow: true},
-    alternates: {
-        canonical: "/",
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+        },
+    },
+    icons: {
+        icon: "/favicon.ico",
+        shortcut: "/favicon.ico",
     },
 };
 
@@ -103,10 +98,7 @@ export default function RootLayout({
             className="min-h-screen bg-background text-foreground antialiased"
             suppressHydrationWarning
         >
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-        />
+        <JsonLd data={siteGraphJsonLd()} />
         <Providers>
             <>
                 <ScrollToTop/>

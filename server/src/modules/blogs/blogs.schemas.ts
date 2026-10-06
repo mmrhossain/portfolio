@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { richTextSchema } from '../../shared/schemas/rich-text.js';
 
 export const createBlogSchema = z.object({
   title: z.string().min(3).max(300),
   excerpt: z.string().min(10).max(1000),
-  content: z.string().min(20).max(50000),
+  content: richTextSchema({ min: 20, max: 50000 }),
   coverImage: z.string().url(),
   category: z.string().min(1).max(100),
   tags: z.array(z.string().max(50)).max(15).default([]),

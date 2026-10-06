@@ -42,7 +42,6 @@ export type EducationMinAggregateOutputType = {
   location: string | null
   startDate: Date | null
   endDate: Date | null
-  description: string | null
   order: number | null
   isActive: boolean | null
   createdAt: Date | null
@@ -57,7 +56,6 @@ export type EducationMaxAggregateOutputType = {
   location: string | null
   startDate: Date | null
   endDate: Date | null
-  description: string | null
   order: number | null
   isActive: boolean | null
   createdAt: Date | null
@@ -97,7 +95,6 @@ export type EducationMinAggregateInputType = {
   location?: true
   startDate?: true
   endDate?: true
-  description?: true
   order?: true
   isActive?: true
   createdAt?: true
@@ -112,7 +109,6 @@ export type EducationMaxAggregateInputType = {
   location?: true
   startDate?: true
   endDate?: true
-  description?: true
   order?: true
   isActive?: true
   createdAt?: true
@@ -229,7 +225,7 @@ export type EducationGroupByOutputType = {
   location: string | null
   startDate: Date
   endDate: Date | null
-  description: string
+  description: runtime.JsonValue
   order: number
   isActive: boolean
   createdAt: Date
@@ -267,7 +263,7 @@ export type EducationWhereInput = {
   location?: Prisma.StringNullableFilter<"Education"> | string | null
   startDate?: Prisma.DateTimeFilter<"Education"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Education"> | Date | string | null
-  description?: Prisma.StringFilter<"Education"> | string
+  description?: Prisma.JsonFilter<"Education">
   order?: Prisma.IntFilter<"Education"> | number
   isActive?: Prisma.BoolFilter<"Education"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Education"> | Date | string
@@ -300,7 +296,7 @@ export type EducationWhereUniqueInput = Prisma.AtLeast<{
   location?: Prisma.StringNullableFilter<"Education"> | string | null
   startDate?: Prisma.DateTimeFilter<"Education"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Education"> | Date | string | null
-  description?: Prisma.StringFilter<"Education"> | string
+  description?: Prisma.JsonFilter<"Education">
   order?: Prisma.IntFilter<"Education"> | number
   isActive?: Prisma.BoolFilter<"Education"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Education"> | Date | string
@@ -338,7 +334,7 @@ export type EducationScalarWhereWithAggregatesInput = {
   location?: Prisma.StringNullableWithAggregatesFilter<"Education"> | string | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Education"> | Date | string
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Education"> | Date | string | null
-  description?: Prisma.StringWithAggregatesFilter<"Education"> | string
+  description?: Prisma.JsonWithAggregatesFilter<"Education">
   order?: Prisma.IntWithAggregatesFilter<"Education"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"Education"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Education"> | Date | string
@@ -353,7 +349,7 @@ export type EducationCreateInput = {
   location?: string | null
   startDate: Date | string
   endDate?: Date | string | null
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -368,7 +364,7 @@ export type EducationUncheckedCreateInput = {
   location?: string | null
   startDate: Date | string
   endDate?: Date | string | null
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -383,7 +379,7 @@ export type EducationUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -398,7 +394,7 @@ export type EducationUncheckedUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -413,7 +409,7 @@ export type EducationCreateManyInput = {
   location?: string | null
   startDate: Date | string
   endDate?: Date | string | null
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -428,7 +424,7 @@ export type EducationUpdateManyMutationInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -443,7 +439,7 @@ export type EducationUncheckedUpdateManyInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,7 +473,6 @@ export type EducationMaxOrderByAggregateInput = {
   location?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -492,7 +487,6 @@ export type EducationMinOrderByAggregateInput = {
   location?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -578,7 +572,7 @@ export type $EducationPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     location: string | null
     startDate: Date
     endDate: Date | null
-    description: string
+    description: runtime.JsonValue
     order: number
     isActive: boolean
     createdAt: Date
@@ -1013,7 +1007,7 @@ export interface EducationFieldRefs {
   readonly location: Prisma.FieldRef<"Education", 'String'>
   readonly startDate: Prisma.FieldRef<"Education", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Education", 'DateTime'>
-  readonly description: Prisma.FieldRef<"Education", 'String'>
+  readonly description: Prisma.FieldRef<"Education", 'Json'>
   readonly order: Prisma.FieldRef<"Education", 'Int'>
   readonly isActive: Prisma.FieldRef<"Education", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Education", 'DateTime'>

@@ -1,8 +1,8 @@
-import { EducationClient } from "@/components/admin/education/education.client";
-import { educationApi } from "@/lib/api/education";
+import { EducationClient } from "@/features/education/components/admin/education.client";
+import { serverListEducation } from "@/features/education/api/server";
 
 export default async function AdminEducationPage() {
-  const response = await educationApi.list({
+  const response = await serverListEducation({
     limit: 100,
   });
   return <EducationClient initialItems={response.data} />;

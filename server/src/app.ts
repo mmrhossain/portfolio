@@ -19,6 +19,7 @@ export function createApp(): Express {
   const app = express();
 
   app.disable("x-powered-by");
+  app.set("trust proxy", 1);
 
   app.use(requestId);
   app.use((pinoHttp as any)({ logger }));
@@ -35,6 +36,18 @@ export function createApp(): Express {
 
           if (allowedOrigins.includes(origin)) {
             return callback(null, true);
+          }
+
+          try {
+            const { hostname } = new URL(origin);
+            const isLocal =
+              hostname === "localhost" || hostname === "127.0.0.1";
+            const isPreview = hostname.endsWith(".monkeycode-ai.live");
+            if (isLocal || isPreview) {
+              return callback(null, true);
+            }
+          } catch {
+            return callback(new Error("Not allowed by CORS"));
           }
 
           return callback(new Error("Not allowed by CORS"));

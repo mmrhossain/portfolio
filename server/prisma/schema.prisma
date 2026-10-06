@@ -86,7 +86,7 @@ model Experience {
   location    String?
   startDate   DateTime
   endDate     DateTime?
-  description String
+  description Json
   order       Int       @default(0)
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -105,7 +105,7 @@ model Education {
   location    String?
   startDate   DateTime
   endDate     DateTime?
-  description String
+  description Json
   order       Int       @default(0)
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -120,8 +120,8 @@ model Project {
   id              String        @id @default(uuid())
   title           String
   slug            String        @unique
-  description     String
-  longDescription String?
+  description     Json
+  longDescription Json?
   image           String
   repoUrl         String?
   liveUrl         String?
@@ -143,7 +143,7 @@ model Blog {
   title       String
   slug        String     @unique
   excerpt     String
-  content     String
+  content     Json
   coverImage  String
   category    String
   tags        String[]

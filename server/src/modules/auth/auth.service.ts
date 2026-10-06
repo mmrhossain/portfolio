@@ -3,9 +3,9 @@ import { prisma } from "../../lib/prisma.js";
 import {Prisma, User} from "../../generated/prisma/client.js"
 import {
   ForbiddenError,
+  NotFoundError,
   UnauthorizedError,
 } from "../../shared/errors.js";
-import { logger } from "../../shared/logger.js";
 import { env } from "../../config/env.js";
 import {
   createTokenId,
@@ -151,11 +151,7 @@ export const authService = {
   async forgotPassword(input: ForgotPasswordInput) {
     const user = await this.findByEmail(input.email.toLowerCase().trim());
     if (!user) {
-      logger.info(
-        { email: input.email },
-        "Password reset requested for unknown email",
-      );
-      return { resetToken: undefined };
+      throw new NotFoundError("No account found for this email.");
     }
 
     await this.invalidateResetTokens(user.id);

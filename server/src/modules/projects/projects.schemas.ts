@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { richTextSchema } from '../../shared/schemas/rich-text.js';
 
 export const createProjectSchema = z.object({
   title: z.string().min(2).max(200),
-  description: z.string().min(10).max(2000),
-  longDescription: z.string().max(10000).optional(),
+  description: richTextSchema({ min: 10, max: 2000 }),
+  longDescription: richTextSchema({ min: 0, max: 10000, required: false }),
   image: z.string().url(),
   repoUrl: z.string().url().optional().nullable(),
   liveUrl: z.string().url().optional().nullable(),

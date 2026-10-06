@@ -1,7 +1,15 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { BackButton } from '@/components/shared/back-button';
 import { Home } from 'lucide-react';
+import { noIndexRobots } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Page not found',
+  description: 'This page does not exist. Return home to explore projects, writing, and contact details.',
+  robots: noIndexRobots,
+};
 
 export default function NotFound() {
   return (
@@ -18,6 +26,9 @@ export default function NotFound() {
             <Home className="h-4 w-4" />
             Take me home
           </Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link href="/projects">Browse projects</Link>
         </Button>
       </div>
     </div>

@@ -7,6 +7,7 @@ import {
   parsePagination,
 } from "../../shared/utils/pagination.js";
 import { randomSlugSuffix, slugify } from "../../shared/utils/slugify.js";
+import { wordCount } from "../../shared/utils/rich-text.js";
 import { prisma } from "../../lib/prisma.js";
 import type { CreateBlogInput, UpdateBlogInput } from "./blogs.schemas.js";
 
@@ -129,10 +130,11 @@ export const blogsService = {
     const slug = await resolveUniqueSlug(input.title);
     const readTime =
       input.readTime ??
-      Math.max(1, Math.ceil(input.content.split(/\s+/).length / 200));
+      Math.max(1, Math.ceil(wordCount(input.content) / 200));
     return prisma.blog.create({
       data: {
         ...input,
+        content: input.content as Prisma.InputJsonValue,
         slug,
         readTime,
         author: { connect: { id: authorId } },
@@ -145,7 +147,13 @@ export const blogsService = {
     const existing = await prisma.blog.findUnique({ where: { id } });
     if (!existing) throw new NotFoundError("Blog not found.");
 
-    const data: Prisma.BlogUpdateInput = { ...input };
+    const { content, ...rest } = input;
+    const data: Prisma.BlogUpdateInput = {
+      ...rest,
+      ...(content !== undefined
+        ? { content: content as Prisma.InputJsonValue }
+        : {}),
+    };
 
     if (input.title && input.title !== existing.title) {
       const slugCandidate = slugify(input.title);

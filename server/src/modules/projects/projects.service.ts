@@ -100,14 +100,38 @@ export const projectsService = {
 
   async create(input: CreateProjectInput) {
     const slug = await resolveUniqueSlug(input.title);
-    return prisma.project.create({ data: { ...input, slug } });
+    return prisma.project.create({
+      data: {
+        ...input,
+        description: input.description as Prisma.InputJsonValue,
+        longDescription:
+          input.longDescription == null
+            ? Prisma.DbNull
+            : (input.longDescription as Prisma.InputJsonValue),
+        slug,
+      },
+    });
   },
 
   async update(id: string, input: UpdateProjectInput) {
     const existing = await prisma.project.findUnique({ where: { id } });
     if (!existing) throw new NotFoundError("Project not found.");
 
-    const data: Prisma.ProjectUpdateInput = { ...input };
+    const { description, longDescription, ...rest } = input;
+    const data: Prisma.ProjectUpdateInput = {
+      ...rest,
+      ...(description !== undefined
+        ? { description: description as Prisma.InputJsonValue }
+        : {}),
+      ...(longDescription !== undefined
+        ? {
+            longDescription:
+              longDescription == null
+                ? Prisma.DbNull
+                : (longDescription as Prisma.InputJsonValue),
+          }
+        : {}),
+    };
     if (input.title && input.title !== existing.title) {
       const existingSlug = await prisma.project.findUnique({
         where: { slug: slugify(input.title) },

@@ -1,3 +1,5 @@
+import type { RichTextValue } from '@/lib/rich-text';
+
 export type Role = 'ADMIN' | 'USER';
 export type ProjectStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 export type BlogStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
@@ -39,7 +41,7 @@ export interface Experience {
   location: string | null;
   startDate: string;
   endDate: string | null;
-  description: string;
+  description: RichTextValue;
   order: number;
   isActive: boolean;
   createdAt: string;
@@ -54,7 +56,7 @@ export interface Education {
   location: string | null;
   startDate: string;
   endDate: string | null;
-  description: string;
+  description: RichTextValue;
   order: number;
   isActive: boolean;
   createdAt: string;
@@ -65,8 +67,8 @@ export interface Project {
   id: string;
   title: string;
   slug: string;
-  description: string;
-  longDescription: string | null;
+  description: RichTextValue;
+  longDescription: RichTextValue;
   image: string;
   repoUrl: string | null;
   liveUrl: string | null;
@@ -89,7 +91,7 @@ export interface Blog {
   title: string;
   slug: string;
   excerpt: string;
-  content?: string;
+  content?: RichTextValue;
   coverImage: string;
   category: string;
   tags: string[];
@@ -204,7 +206,7 @@ export interface ExperienceFormValues {
   location: string;
   startDate: string;
   endDate: string;
-  description: string;
+  description: RichTextValue;
   order: number;
 }
 
@@ -214,7 +216,7 @@ export const initialExperienceForm: ExperienceFormValues = {
   location: '',
   startDate: '',
   endDate: '',
-  description: '',
+  description: { type: 'doc', content: [{ type: 'paragraph' }] },
   order: 0,
 };
 
@@ -225,7 +227,7 @@ export interface EducationFormValues {
   location: string;
   startDate: string;
   endDate: string;
-  description: string;
+  description: RichTextValue;
   order: number;
 }
 
@@ -236,6 +238,6 @@ export const initialEducationForm: EducationFormValues = {
   location: '',
   startDate: '',
   endDate: '',
-  description: '',
+  description: { type: 'doc', content: [{ type: 'paragraph' }] },
   order: 0,
 };

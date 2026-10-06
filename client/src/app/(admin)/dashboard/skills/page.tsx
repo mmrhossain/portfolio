@@ -1,8 +1,8 @@
-import { SkillsClient } from "@/components/admin/skills/skills.client";
-import { skillsApi } from "@/lib/api/skills";
+import { SkillsClient } from "@/features/skill/components/admin/skills.client";
+import { serverListSkills } from "@/features/skill/api/server";
 
 export default async function AdminSkillsPage() {
-  const response = await skillsApi.list({
+  const response = await serverListSkills({
     limit: 100,
   });
   return <SkillsClient initialSkills={response.data} />;

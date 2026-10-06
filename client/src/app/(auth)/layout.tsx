@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { noIndexRobots } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
+  title: 'Sign in',
+  robots: noIndexRobots,
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

@@ -1,5 +1,5 @@
-import {Navbar} from "@/components/site/navbar";
-import {Footer} from "@/components/site/footer";
+import {Navbar} from "@/components/shared/navbar";
+import {Footer} from "@/components/shared/footer";
 
 
 export default function SiteLayout({

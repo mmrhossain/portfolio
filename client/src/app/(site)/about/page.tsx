@@ -1,34 +1,20 @@
-import { serverListEducation, serverListExperience } from "@/app/actions";
-import { EducationTimeline } from "@/components/about/education-timeline";
-import { ExperienceTimeline } from "@/components/about/experience-timeline";
-import { AboutTeaser } from "@/components/home/about-teaser";
-import { WorkProcess } from "@/components/home/work-process";
+import { EducationTimeline } from "@/features/education/components/public/education-timeline";
+import { ExperienceTimeline } from "@/features/experience/components/public/experience-timeline";
+import { AboutTeaser } from "@/features/home/components/about-teaser";
+import { WorkProcess } from "@/features/home/components/work-process";
 import { PageHeader } from "@/components/shared/page-header";
-import type { Metadata } from "next";
+import { serverListEducation } from "@/features/education/api/server";
+import { serverListExperience } from "@/features/experience/api/server";
+import { createPageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "About",
   description:
-    "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
-  alternates: {
-    canonical: "/about",
-  },
-  openGraph: {
-    title: "About",
-    description:
-      "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
-    images: [{ url: "/images/seo-image.PNG" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About",
-    description:
-      "Learn about Monir Hossain, a full-stack developer specializing in Next.js, React, Node.js, and modern web technologies.",
-    images: ["/images/seo-image.PNG"],
-  },
-};
+    "Meet Monir Hossain, a full stack developer in Bangladesh working with React, Next.js, Node.js, Express.js, TypeScript, PostgreSQL, and Prisma.",
+  path: "/about",
+});
 
 export default async function AboutPage() {
   const [experienceResult, educationResult] = await Promise.all([
@@ -40,8 +26,8 @@ export default async function AboutPage() {
     <>
       <PageHeader
         eyebrow="About Me"
-        title="About Monir"
-        description="A full-stack developer who loves turning complex problems into simple, beautiful, and intuitive products."
+        title="About Monir Hossain"
+        description="A full stack developer in Bangladesh who turns complex product problems into simple, reliable web applications."
       />
       <AboutTeaser />
       <ExperienceTimeline items={experienceResult.data} />

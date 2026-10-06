@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { randomBytes, createHash } from "crypto";
 import { env, isProduction } from "../../config/env.js";
 import { UnauthorizedError } from "../errors.js";
-import type { Response } from "express";
+import type { Request, Response } from "express";
 
 const JWT_ACCESS_EXPIRES_IN = 15 * 60 * 1000; // 15 minutes in milliseconds
 const JWT_REFRESH_EXPIRES_IN = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
@@ -130,48 +130,71 @@ export function generateOtp(): string {
 type AuthCookieOptions = {
   httpOnly: true;
   secure: boolean;
-  sameSite: "lax";
+  sameSite: "lax" | "none";
   path: string;
   domain?: string;
+  partitioned?: boolean;
 };
+
+function headerValue(
+  value: string | string[] | undefined,
+): string | undefined {
+  const raw = Array.isArray(value) ? value[0] : value;
+  return raw?.split(",")[0]?.trim();
+}
+
+function isHttpsRequest(req: Request | undefined): boolean {
+  if (!req) return false;
+  if (req.secure) return true;
+  if (headerValue(req.headers["x-forwarded-proto"])?.toLowerCase() === "https") {
+    return true;
+  }
+  const origin = headerValue(req.headers.origin) ?? headerValue(req.headers.referer);
+  return Boolean(origin?.toLowerCase().startsWith("https://"));
+}
 
 /**
  * Shared attributes for both auth cookies. The SAME attributes (minus maxAge)
  * must be used when clearing, otherwise the browser will not remove the cookie
  * on logout.
  *
- * - secure: enabled automatically in production (HTTPS); can be forced with
- *   COOKIE_SECURE. Disabled on http://localhost so development login works.
- * - domain: omitted in development (host-only cookie). In production set
- *   COOKIE_DOMAIN so the cookie is shared between the API and the frontend
- *   (e.g. mmrhossain.com covers api.mmrhossain.com and mmrhossain.com).
+ * - secure: true on HTTPS (including preview behind a TLS proxy) and in
+ *   production. Left off for http://localhost so development login works.
+ * - sameSite: "none" when Secure so preview iframes can store the cookie;
+ *   "lax" on localhost HTTP (browsers reject SameSite=None without Secure).
+ * - domain: omitted by default (host-only). Set COOKIE_DOMAIN in production
+ *   if the API and frontend are on sibling hosts.
  */
-function authCookieOptions(): AuthCookieOptions {
+function authCookieOptions(res: Response): AuthCookieOptions {
+  const secure =
+    env.COOKIE_SECURE === true || isHttpsRequest(res.req) || isProduction;
+
   return {
     httpOnly: true,
-    secure: env.COOKIE_SECURE ?? isProduction,
-    sameSite: "lax",
+    secure,
+    sameSite: secure ? "none" : "lax",
     path: "/",
+    ...(secure ? { partitioned: true } : {}),
     ...(env.COOKIE_DOMAIN ? { domain: env.COOKIE_DOMAIN } : {}),
   };
 }
 
 export function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
-    ...authCookieOptions(),
+    ...authCookieOptions(res),
     maxAge: JWT_ACCESS_EXPIRES_IN,
   });
 }
 
 export function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
-    ...authCookieOptions(),
+    ...authCookieOptions(res),
     maxAge: JWT_REFRESH_EXPIRES_IN,
   });
 }
 
 export function clearAuthCookies(res: Response) {
-  const options = authCookieOptions();
+  const options = authCookieOptions(res);
   res.clearCookie("accessToken", options);
   res.clearCookie("refreshToken", options);
 }

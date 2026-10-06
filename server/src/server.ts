@@ -2,6 +2,7 @@ import { createApp } from "./app.js";
 import { env } from "./config/env.js";
 import { logger } from "./shared/logger.js";
 import { prisma } from "./lib/prisma.js";
+import { logMailStatus } from "./shared/mailer.js";
 
 async function bootstrap() {
   const app = createApp();
@@ -18,6 +19,7 @@ async function bootstrap() {
     logger.info(
         `API server listening on http://localhost:${env.PORT}${env.API_PREFIX} (${env.NODE_ENV})`
     );
+    logMailStatus();
   });
 
   const shutdown = async (signal: string) => {

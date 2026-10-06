@@ -1,5 +1,5 @@
-import { SettingsClient } from "@/components/admin/settings/settings.client";
-import {serverGetSettings} from "@/app/actions";
+import { SettingsClient } from "@/features/settings/components/admin/settings.client";
+import { serverGetSettings } from "@/features/settings/api/server";
 
 export default async function AdminSettingsPage() {
   const settings = await serverGetSettings();

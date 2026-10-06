@@ -20,7 +20,12 @@ export default function GlobalError({
       <p className="max-w-md text-muted-foreground">
         An unexpected error occurred. Please try again.
       </p>
-      <Button onClick={() => reset()}>Try again</Button>
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button onClick={() => reset()}>Try again</Button>
+        <Button asChild variant="outline">
+          <a href="/">Return home</a>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import {BlogsClient} from "@/components/admin/blogs/blogs.client";
+import {BlogsClient} from "@/features/blog/components/admin/blogs.client";
 
 export default async function AdminBlogsPage() {
 

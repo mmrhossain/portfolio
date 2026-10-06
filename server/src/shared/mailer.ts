@@ -9,22 +9,61 @@ export interface SendMailInput {
   text?: string;
 }
 
-const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
+function normalizeOptional(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+const resendApiKey = normalizeOptional(env.RESEND_API_KEY);
+const mailFrom =
+  normalizeOptional(env.MAIL_FROM) ?? "Dev Monir <beth.t@example.com>";
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+
+export function isMailConfigured(): boolean {
+  return Boolean(resend);
+}
+
+export function logMailStatus(): void {
+  if (!resend) {
+    logger.warn(
+      "RESEND_API_KEY is missing in server/.env - password reset emails will not send.",
+    );
+    return;
+  }
+
+  logger.info({ from: mailFrom }, "Resend mailer is configured.");
+}
+
+function formatMailError(error: unknown): Record<string, unknown> {
+  if (error && typeof error === "object") {
+    const record = error as {
+      message?: unknown;
+      name?: unknown;
+      statusCode?: unknown;
+    };
+    return {
+      name: record.name,
+      message: record.message,
+      statusCode: record.statusCode,
+    };
+  }
+  return { message: String(error) };
+}
 
 export async function sendMail(input: SendMailInput): Promise<boolean> {
   if (!resend) {
-    logger.info(
+    logger.warn(
       { subject: input.subject, to: input.to },
-      "Resend is not configured - email not sent."
+      "Resend is not configured - email not sent.",
     );
-    if (!isProduction) {
-      logger.info(input.text ?? input.html);
+    if (!isProduction && input.text) {
+      logger.info({ text: input.text }, "Email body (development only).");
     }
     return false;
   }
 
-  const { error } = await resend.emails.send({
-    from: env.MAIL_FROM ?? "",
+  const { data, error } = await resend.emails.send({
+    from: mailFrom,
     to: input.to,
     subject: input.subject,
     html: input.html,
@@ -32,15 +71,24 @@ export async function sendMail(input: SendMailInput): Promise<boolean> {
   });
 
   if (error) {
-    logger.error({ err: error, to: input.to }, "Resend failed to send mail.");
+    logger.error(
+      { err: formatMailError(error), to: input.to, from: mailFrom },
+      "Resend rejected the email. Use a verified MAIL_FROM domain, or send only to the Resend account email when using beth.t@example.com.",
+    );
     throw error;
   }
 
-  logger.info({ to: input.to, subject: input.subject }, "Mail sent via Resend.");
+  logger.info(
+    { to: input.to, subject: input.subject, id: data?.id },
+    "Mail sent via Resend.",
+  );
   return true;
 }
 
-export function sendPasswordResetEmail(to: string, resetLink: string): Promise<boolean> {
+export function sendPasswordResetEmail(
+  to: string,
+  resetLink: string,
+): Promise<boolean> {
   return sendMail({
     to,
     subject: "Reset your Dev Monir password",

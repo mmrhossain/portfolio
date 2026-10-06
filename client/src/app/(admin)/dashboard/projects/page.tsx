@@ -1,4 +1,4 @@
-import { AdminProjectsClient } from "@/components/admin/projects/admin.projects.client";
+import { AdminProjectsClient } from "@/features/project/components/admin/admin.projects.client";
 
 export default async function AdminProjectsPage() {
 

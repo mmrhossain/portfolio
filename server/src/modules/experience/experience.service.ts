@@ -75,7 +75,7 @@ export const experienceService = {
         location: input.location ?? null,
         startDate: new Date(input.startDate),
         endDate: toDate(input.endDate),
-        description: input.description,
+        description: input.description as Prisma.InputJsonValue,
         order: input.order ?? 0,
         isActive: input.isActive ?? true,
       },
@@ -92,7 +92,9 @@ export const experienceService = {
     if (input.location !== undefined) data.location = input.location;
     if (input.startDate !== undefined) data.startDate = new Date(input.startDate);
     if (input.endDate !== undefined) data.endDate = toDate(input.endDate);
-    if (input.description !== undefined) data.description = input.description;
+    if (input.description !== undefined) {
+      data.description = input.description as Prisma.InputJsonValue;
+    }
     if (input.order !== undefined) data.order = input.order;
     if (input.isActive !== undefined) data.isActive = input.isActive;
 

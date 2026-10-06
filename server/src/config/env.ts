@@ -39,8 +39,16 @@ const envSchema = z.object({
   AUTH_RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
   AUTH_RATE_LIMIT_MAX: z.coerce.number().default(10),
 
-  RESEND_API_KEY: z.string().optional(),
-  MAIL_FROM: z.string().optional(),
+  RESEND_API_KEY: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value ? value : undefined)),
+  MAIL_FROM: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value ? value : undefined)),
   APP_URL: z.string().url().default("http://localhost:3000"),
 
   SEED_ADMIN_EMAIL: z.string().email().default("admin@devmonir.com"),

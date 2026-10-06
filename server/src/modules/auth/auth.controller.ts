@@ -89,14 +89,22 @@ export const authController = {
       if (resetToken) {
         const resetLink = authService.buildResetLink(resetToken);
         try {
-          await sendPasswordResetEmail(req.body.email, resetLink);
+          const sent = await sendPasswordResetEmail(req.body.email, resetLink);
+          if (!sent) {
+            logger.warn(
+              { resetLink },
+              "Password reset email was not sent. Use this link in development.",
+            );
+          }
         } catch (mailError) {
-          logger.error({ err: mailError }, "Failed to send password reset email.");
+          logger.error(
+            { err: mailError, resetLink },
+            "Failed to send password reset email.",
+          );
         }
       }
       return sendSuccess(res, null, {
-        message:
-          "If an account exists for this email, a reset link has been sent.",
+        message: "A password reset link has been sent to your email.",
       });
     } catch (error) {
       return next(error);

@@ -1,319 +1,415 @@
-
+import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import {
-    ArrowLeft,
-    ExternalLink,
-    Sparkles,
-    Terminal,
-    Cpu,
-} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
+import { RichTextContent } from "@/components/shared/editor/rich-text-content";
+import { Breadcrumbs } from "@/components/shared/seo/breadcrumbs";
+import { JsonLd } from "@/components/shared/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { serverGetProject } from "@/app/actions";
+
+import { serverGetProject, serverListProjects } from "@/features/project/api/server";
+import { extractRichText } from "@/lib/rich-text";
+import { createPageMetadata } from "@/lib/seo";
+import { projectJsonLd } from "@/lib/seo/json-ld";
+
 import type { ApiResponse, Project } from "@/types";
 
 export const revalidate = 3600;
 
 interface ProjectDetailPageProps {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({
-    params,
-}: ProjectDetailPageProps): Promise<Metadata> {
-    const { slug } = await params;
+export async function generateStaticParams() {
+  const result = await serverListProjects({ limit: 100 });
 
-    const response: ApiResponse<Project> | null =
-        await serverGetProject(slug);
-
-    const project = response?.data;
-
-    if (!project) {
-        return {
-            title: "Project Not Found | Monir Hossain",
-            description: "The requested project could not be found.",
-        };
-    }
-
-    return {
-        title: `${project.title} | Monir Hossain`,
-        description: project.description,
-        keywords: project.tags,
-        alternates: {
-            canonical: `/projects/${slug}`,
-        },
-
-        openGraph: {
-            title: project.title,
-            description: project.description,
-            type: "article",
-            images: [
-                {
-                    url: project.image,
-                    width: 1200,
-                    height: 630,
-                    alt: project.title,
-                },
-            ],
-        },
-
-        twitter: {
-            card: project.image ? "summary_large_image" : "summary",
-            title: project.title,
-            description: project.description,
-            images: project.image ? [project.image] : undefined,
-        },
-    };
+  return (result.data ?? [])
+    .filter((project) => project.status === "PUBLISHED" && project.slug)
+    .map((project) => ({
+      slug: project.slug,
+    }));
 }
 
-export default async function ProjectDetailPage({
-    params,
-}: ProjectDetailPageProps) {
-    const { slug } = await params;
+export async function generateMetadata({ params }: ProjectDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
 
-    const response: ApiResponse<Project> | null =
-        await serverGetProject(slug);
+  const response: ApiResponse<Project> | null = await serverGetProject(slug);
 
-    const project = response?.data;
+  const project = response?.data;
 
-    if (!project) {
-        return notFound();
-    }
+  if (!project || project.status !== "PUBLISHED") {
+    return createPageMetadata({
+      title: "Project not found",
+      description: "The requested project could not be found.",
+      path: `/projects/${slug}`,
+      index: false,
+      follow: true,
+    });
+  }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-monir.vercel.app";
-    const projectJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        name: project.title,
-        description: project.description,
-        image: project.image || undefined,
-        url: `${siteUrl}/projects/${slug}`,
-        dateCreated: project.createdAt,
-        dateModified: project.updatedAt,
-        keywords: project.tags,
-        author: { "@type": "Person", name: "Monir Hossain" },
-        ...(project.liveUrl ? { sameAs: [project.liveUrl] } : {}),
-    };
-    const breadcrumbJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteUrl}/projects` },
-            { "@type": "ListItem", position: 3, name: project.title, item: `${siteUrl}/projects/${slug}` },
-        ],
-    };
+  return createPageMetadata({
+    title: project.title,
+    description: extractRichText(project.description),
+    path: `/projects/${slug}`,
+    image: project.image,
+    imageAlt: `${project.title} project screenshot`,
+    keywords: project.tags,
+    modifiedTime: project.updatedAt,
+    publishedTime: project.createdAt,
+  });
+}
 
-    return (
-        <article className="relative min-h-screen min-w-0 overflow-hidden bg-background pb-16 sm:pb-32">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-            />
+export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+  const { slug } = await params;
 
+  const response: ApiResponse<Project> | null = await serverGetProject(slug);
 
-            {/* Background Glow */}
-            <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[350px] w-[1000px] -translate-x-1/2 bg-gradient-to-tr from-accent/15 via-primary/10 to-transparent blur-[120px]" />
+  const project = response?.data;
 
-            <div className="container-page min-w-0 pt-8 sm:pt-12">
-                {/* Back Button */}
-                <Button
-                    asChild
-                    variant="ghost"
-                    size="sm"
-                    className="group -ml-3 mb-10 rounded-full border border-transparent px-4 transition-all hover:border-border/60 hover:bg-card/40"
-                >
-                    <Link
-                        href="/projects"
-                        className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1.5" />
-                        <span>Back to Projects</span>
-                    </Link>
-                </Button>
+  if (!project || project.status !== "PUBLISHED") {
+    return notFound();
+  }
 
-                {/* Header */}
-                <div className="mx-auto min-w-0 max-w-4xl text-center">
-                    <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 px-4 py-1.5 backdrop-blur-xl">
-                        <Sparkles className="h-3.5 w-3.5 animate-pulse text-accent" />
+  return (
+    <article className="min-w-0 pb-20 sm:pb-28">
+      <JsonLd data={projectJsonLd(project, slug)} />
 
-                        <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-xs font-semibold uppercase tracking-wider text-transparent">
-                            Case Study & Showcase
-                        </span>
-                    </div>
+      {/* ==================================================
+                HEADER
+            ================================================== */}
+      <header className="border-b border-border/60">
+        <div className="container-page">
+          {/* Navigation */}
+          <div className="py-6 sm:py-8">
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="-ml-3 w-fit gap-2 text-muted-foreground hover:text-foreground"
+            >
+              <Link href="/projects">
+                <ArrowLeft className="h-4 w-4" />
+                Back to projects
+              </Link>
+            </Button>
 
-                    <h1 className="break-words font-display bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
-                        {project.title}
-                    </h1>
-
-                    <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-                        {project.description}
-                    </p>
-
-                    {/* Action Buttons */}
-                    <div className="mt-8 flex w-full min-w-0 flex-col items-stretch justify-center gap-4 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
-                        {project.liveUrl && (
-                            <Button
-                                asChild
-                                size="lg"
-                                className="h-12 rounded-2xl px-7 shadow-xl shadow-accent/20 transition-all duration-300 hover:scale-[1.02] active:scale-95"
-                            >
-                                <Link
-                                    href={project.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={`View live preview of ${project.title}`}
-                                    className="flex items-center gap-2"
-                                >
-                                    <ExternalLink className="h-4 w-4" />
-                                    <span>Live Preview</span>
-                                </Link>
-                            </Button>
-                        )}
-
-                        {project.repoUrl && (
-                            <Button
-                                asChild
-                                variant="outline"
-                                size="lg"
-                                className="h-12 rounded-2xl border-border/80 bg-card/40 px-7 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:bg-card/80 active:scale-95"
-                            >
-                                <Link
-                                    href={project.repoUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={`View source code of ${project.title}`}
-                                    className="flex items-center gap-2"
-                                >
-                                    <FaGithub className="h-4 w-4" />
-                                    <span>Source Code</span>
-                                </Link>
-                            </Button>
-                        )}
-                    </div>
-
-                    {/* Project Stats */}
-                    <div className="mt-8 grid min-w-0 grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-4 sm:gap-4">
-                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
-                            <p className="text-xs text-muted-foreground">Category</p>
-                            <p className="mt-1 truncate font-medium">Web Application</p>
-                        </div>
-
-                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
-                            <p className="text-xs text-muted-foreground">Technologies</p>
-                            <p className="mt-1 truncate font-medium">{project.tags?.length ?? 0}+</p>
-                        </div>
-
-                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
-                            <p className="text-xs text-muted-foreground">Repository</p>
-                            <p className="mt-1 truncate font-medium">
-                                {project.repoUrl ? "Public" : "Private"}
-                            </p>
-                        </div>
-
-                        <div className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-3 text-left sm:p-4">
-                            <p className="text-xs text-muted-foreground">Status</p>
-                            <p className="mt-1 truncate font-medium">Completed</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Hero Image */}
-                <div className="group relative mx-auto mt-10 aspect-[16/9] w-full min-w-0 max-w-5xl overflow-hidden rounded-md border border-border/60 bg-card/40 shadow-2xl backdrop-blur-2xl sm:mt-16">
-                    <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-
-                    <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        priority
-                        quality={95}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                </div>
-
-                {/* Content */}
-                <div className="mx-auto mt-10 min-w-0 max-w-3xl space-y-8 sm:mt-16 sm:space-y-12">
-                    {/* Overview */}
-                    <section className="rounded-2xl border-border/60 bg-card/30 backdrop-blur-xl lg:rounded-[2rem] lg:border lg:p-6 lg:shadow-sm">
-                        <div className="mb-6 flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
-                                <Terminal className="h-5 w-5" />
-                            </div>
-
-                            <h2 className="font-display text-2xl font-bold tracking-tight">
-                                Overview
-                            </h2>
-                        </div>
-
-                        <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none break-words">
-                            <ReactMarkdown>
-                                {project.longDescription}
-                            </ReactMarkdown>
-                        </div>
-                    </section>
-
-                    {/* Tech Stack */}
-                    {project.tags && project.tags.length > 0 && (
-                        <section className="rounded-2xl border-border/60 bg-card/20 backdrop-blur-xl lg:rounded-[2rem] lg:border lg:p-6">
-                            <div className="mb-6 flex items-center gap-3">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-card/80 text-accent">
-                                    <Cpu className="h-5 w-5" />
-                                </div>
-
-                                <h3 className="font-display text-xl font-bold tracking-tight">
-                                    Technologies & Stack
-                                </h3>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2.5">
-                                {project.tags.map((tag) => (
-                                    <Badge
-                                        key={tag}
-                                        variant="secondary"
-                                        className="rounded-xl border border-border/40 bg-card/50 px-4 py-2 text-sm font-medium transition-all duration-300 hover:border-accent/60 hover:bg-accent/5 hover:text-accent"
-                                    >
-                                        #{tag}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* CTA */}
-                    <section className="rounded-2xl border border-border/60 bg-card/20 p-5 text-center sm:rounded-[2rem] sm:p-10">
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                            Interested in Similar Work?
-                        </h2>
-
-                        <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-                            Explore more projects or get in touch to discuss your next idea.
-                        </p>
-
-                        <div className="mt-8 flex min-w-0 flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
-                            <Button asChild>
-                                <Link href="/projects">View More Projects</Link>
-                            </Button>
-
-                            <Button variant="outline" asChild>
-                                <Link href="/contact">Contact Me</Link>
-                            </Button>
-                        </div>
-                    </section>
-                </div>
+            <div className="mt-5">
+              <Breadcrumbs
+                items={[
+                  {
+                    name: "Home",
+                    path: "/",
+                  },
+                  {
+                    name: "Projects",
+                    path: "/projects",
+                  },
+                  {
+                    name: project.title,
+                    path: `/projects/${slug}`,
+                  },
+                ]}
+              />
             </div>
-        </article>
-    );
-}
+          </div>
 
+          {/* Project Introduction */}
+          <div className="mx-auto max-w-5xl pb-12 pt-6 sm:pb-16 sm:pt-8">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-accent" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Project Case Study
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1
+              className="
+                                mt-5
+                                max-w-4xl
+                                break-words
+                                font-display
+                                text-3xl
+                                font-bold
+                                leading-tight
+                                tracking-tight
+                                text-foreground
+                                sm:text-4xl
+                                lg:text-5xl
+                            "
+            >
+              {project.title}
+            </h1>
+
+            {/* Short Description */}
+            <RichTextContent
+              value={project.description}
+              compact
+              className="
+                                mt-5
+                                max-w-3xl
+                                text-base
+                                leading-7
+                                text-foreground
+                                sm:text-lg
+                                sm:leading-8
+                            "
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* ==================================================
+                HERO IMAGE
+            ================================================== */}
+      <section className="container-page">
+        <div className="mx-auto max-w-6xl">
+          <div className="relative aspect-[16/8] w-full overflow-hidden bg-muted shadow-xl sm:aspect-[16/7] lg:rounded-b-2xl">
+            <Image
+              src={project.image}
+              alt={`${project.title} project screenshot`}
+              fill
+              priority
+              quality={95}
+              sizes="
+                                (max-width: 640px) 100vw,
+                                (max-width: 1024px) 92vw,
+                                1200px
+                            "
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================
+                MAIN CONTENT
+            ================================================== */}
+      <div className="container-page">
+        <div className="mx-auto mt-12 grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-16 xl:gap-20">
+          {/* ==================================================
+                        ARTICLE CONTENT
+                    ================================================== */}
+          <main className="min-w-0">
+            {/* Overview */}
+            <section>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Overview
+              </p>
+
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                About the project
+              </h2>
+
+              <RichTextContent
+                value={project.longDescription ?? project.description}
+                className="
+                                    mt-7
+                                    max-w-none
+                                    prose-lg
+
+                                    prose-headings:font-display
+                                    prose-headings:tracking-tight
+                                    prose-headings:text-foreground
+
+                                    prose-p:text-muted-foreground
+                                    prose-p:leading-8
+
+                                    prose-a:font-medium
+                                    prose-a:text-accent
+                                    prose-a:no-underline
+                                    hover:prose-a:underline
+
+                                    prose-strong:text-foreground
+
+                                    prose-code:rounded
+                                    prose-code:bg-muted
+                                    prose-code:px-1.5
+                                    prose-code:py-0.5
+                                    prose-code:text-sm
+
+                                    prose-pre:overflow-x-auto
+                                    prose-pre:rounded-xl
+                                "
+              />
+            </section>
+
+            {/* CTA */}
+            <section className="mt-16 border-t border-border pt-10 sm:mt-20 sm:pt-12">
+              <div className="rounded-2xl border border-border bg-muted/30 p-7 sm:rounded-3xl sm:p-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Project inquiry
+                </p>
+
+                <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                  Have a similar project in mind?
+                </h2>
+
+                <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
+                  I'm interested in building modern web applications, backend systems, and practical
+                  digital products.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Button asChild>
+                    <Link href="/contact">
+                      Start a conversation
+                      <ArrowUpRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+
+                  <Button asChild variant="outline">
+                    <Link href="/projects">Explore more projects</Link>
+                  </Button>
+                </div>
+              </div>
+            </section>
+          </main>
+
+          {/* ==================================================
+                        SIDEBAR
+                    ================================================== */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 space-y-8">
+              {/* Project Details */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Project details
+                </p>
+
+                <dl className="mt-5 space-y-5 text-sm">
+                  <div>
+                    <dt className="text-muted-foreground">Type</dt>
+
+                    <dd className="mt-1 font-medium text-foreground">Web application</dd>
+                  </div>
+
+                  <div>
+                    <dt className="text-muted-foreground">Technologies</dt>
+
+                    <dd className="mt-1 font-medium text-foreground">
+                      {project.tags?.length ?? 0} technologies
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt className="text-muted-foreground">Repository</dt>
+
+                    <dd className="mt-1 font-medium text-foreground">
+                      {project.repoUrl ? "Public" : "Private"}
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt className="text-muted-foreground">Last updated</dt>
+
+                    <dd className="mt-1 font-medium text-foreground">
+                      {new Date(project.updatedAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              {/* Technology Stack */}
+              {project.tags && project.tags.length > 0 && (
+                <div className="border-t border-border pt-8">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Stack
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <Badge key={tag} variant="outline" className="rounded-full">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Project Links */}
+              <div className="border-t border-border pt-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Project links
+                </p>
+
+                <div className="mt-4 space-y-2">
+                  {project.liveUrl && (
+                    <Link
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                                                group
+                                                flex
+                                                items-center
+                                                justify-between
+                                                rounded-xl
+                                                border
+                                                border-border
+                                                px-4
+                                                py-3
+                                                text-sm
+                                                font-medium
+                                                transition-colors
+                                                hover:border-foreground/20
+                                                hover:bg-muted/50
+                                            "
+                    >
+                      <span className="flex items-center gap-2">
+                        <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                        Live project
+                      </span>
+
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </Link>
+                  )}
+
+                  {project.repoUrl && (
+                    <Link
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                                                group
+                                                flex
+                                                items-center
+                                                justify-between
+                                                rounded-xl
+                                                border
+                                                border-border
+                                                px-4
+                                                py-3
+                                                text-sm
+                                                font-medium
+                                                transition-colors
+                                                hover:border-foreground/20
+                                                hover:bg-muted/50
+                                            "
+                    >
+                      <span className="flex items-center gap-2">
+                        <FaGithub className="h-4 w-4 text-muted-foreground" />
+                        Source code
+                      </span>
+
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </article>
+  );
+}
