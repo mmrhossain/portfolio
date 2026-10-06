@@ -63,6 +63,8 @@ apps/api/prisma/*.db
 .railway
 
 # seed file
-server/prisma/seed/
+# seed file
+server/tmp-seed-admin.*
+
 
 .idea
