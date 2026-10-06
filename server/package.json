@@ -7,9 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "tsx --watch src/server.ts",
-    "prisma:studio": "prisma studio",
-    "prisma:seed": "tsx prisma/seed/seed.ts"
+    "dev": "tsx --watch src/server.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
