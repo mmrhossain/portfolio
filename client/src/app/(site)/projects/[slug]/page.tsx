@@ -168,21 +168,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       {/* ==================================================
                 HERO IMAGE
             ================================================== */}
+      {/* HERO IMAGE */}
       <section className="container-page">
         <div className="mx-auto max-w-6xl">
-          <div className="relative aspect-[16/8] w-full overflow-hidden bg-muted shadow-xl sm:aspect-[16/7] lg:rounded-b-2xl">
+          <div className="relative aspect-video w-full overflow-hidden bg-muted shadow-md lg:rounded-b-2xl">
             <Image
               src={project.image}
               alt={`${project.title} project screenshot`}
               fill
-              priority
-              quality={95}
-              sizes="
-                                (max-width: 640px) 100vw,
-                                (max-width: 1024px) 92vw,
-                                1200px
-                            "
-              className="object-cover"
+              preload
+              quality={75}
+              sizes="(min-width: 1200px) 1152px, 100vw"
+              className="object-contain"
             />
           </div>
         </div>

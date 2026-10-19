@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { Clock, User } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { formatDate } from '@/lib/utils';
-import type { Blog } from '@/types';
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/utils";
+import type { Blog } from "@/types";
+import { Clock, User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface BlogCardProps {
   blog: Blog;
@@ -15,13 +15,14 @@ export function BlogCard({ blog }: BlogCardProps) {
       href={`/blogs/${blog.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl"
     >
-      <div className="relative aspect-[16/9] overflow-hidden">
+      <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <Image
           src={blog.coverImage}
           alt={`Cover image for ${blog.title}`}
           fill
+          quality={75}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-contain"
         />
       </div>
       <div className="flex flex-1 flex-col p-6">

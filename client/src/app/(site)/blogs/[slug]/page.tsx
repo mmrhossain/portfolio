@@ -200,21 +200,16 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       -------------------------------------------------- */}
       <div className="container-page">
         <div className="mx-auto -mt-px max-w-6xl">
-          <div className="relative aspect-[16/8] w-full overflow-hidden bg-muted shadow-xl sm:aspect-[16/7] lg:rounded-b-2xl">
+          <div className="relative aspect-video w-full overflow-hidden bg-muted shadow-xl lg:rounded-b-2xl">
             <Image
               src={blog.coverImage}
               alt={blog.title}
               fill
-              priority
-              sizes="
-                (max-width: 640px) 100vw,
-                (max-width: 1024px) 90vw,
-                1200px
-              "
-              className="object-cover"
+              preload
+              quality={75}
+              sizes="(min-width: 1200px) 1152px, 100vw"
+              className="object-contain"
             />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
           </div>
         </div>
       </div>

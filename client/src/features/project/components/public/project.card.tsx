@@ -5,6 +5,7 @@ import type { Project } from "@/types";
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
 
 interface ProjectCardProps {
   project: Project;
@@ -20,19 +21,20 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       )}
     >
       <Link
-        href={`/projects/${project?.slug}`}
-        className="relative aspect-16/10 overflow-hidden block"
+        href={`/projects/${project.slug}`}
+        className="relative block aspect-video w-full overflow-hidden bg-muted"
       >
         <Image
-          src={project?.image}
-          alt={`${project?.title} project screenshot`}
+          src={project.image}
+          alt={`${project.title} project screenshot`}
           fill
+          quality={75}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="eager"
+          className="object-contain"
         />
-        {project?.featured && (
-          <Badge className="absolute left-4 top-4 z-10" variant="accent">
+
+        {project.featured && (
+          <Badge className="absolute right-0 top-0 z-10" variant="accent">
             Featured
           </Badge>
         )}
@@ -70,7 +72,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                 Live demo
               </Link>
             )}
-            {/* {project?.repoUrl && (
+            {project?.repoUrl && (
               <Link
                 href={project?.repoUrl}
                 target="_blank"
@@ -80,7 +82,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                 <FaGithub className="h-4 w-4" />
                 Source
               </Link>
-            )} */}
+            )}
           </div>
 
           {/* <Link
